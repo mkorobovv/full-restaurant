@@ -1,0 +1,406 @@
+openapi: 3.0.0
+info:
+  title: Restaurant Management API
+  version: 1.0.0
+  description: |
+    ### API для управления рестораном
+
+    Этот API предоставляет доступ к данным ресторана, включая управление сотрудниками, клиентами, заказами и поставками. 
+    Пользователи могут выполнять такие действия, как поиск блюд по ингредиентам, расчет средней стоимости заказов и получение информации о поставках.
+
+paths:
+  /dishes/get:
+    get:
+      tags:
+        - Dishes
+      summary: Список блюд и их ингредиентов
+      operationId: getDishesWithIngredients
+      responses:
+        '200':
+          description: Список блюд и их ингредиентов
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DishWithIngredients'
+        '400':
+          description: Некорректный запрос
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /dishes/search:
+    get:
+      tags:
+        - Dishes
+      summary: Поиск блюд по ингредиентам
+      operationId: searchDishesByIngredients
+      parameters:
+        - in: query
+          name: ingredients
+          schema:
+            type: array
+            items:
+              type: string
+          required: true
+          description: Список ингредиентов для поиска блюд.
+      responses:
+        '200':
+          description: Список блюд, содержащих указанные ингредиенты
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dish'
+        '400':
+          description: Некорректный запрос
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /employees/orders-count:
+    get:
+      tags:
+        - Employees
+      summary: Количество заказов, выполненных каждым сотрудником за период
+      operationId: getEmployeeOrderCount
+      parameters:
+        - in: query
+          name: start_date
+          schema:
+            type: string
+            format: date
+          required: true
+          description: Дата начала периода.
+        - in: query
+          name: end_date
+          schema:
+            type: string
+            format: date
+          required: true
+          description: Дата окончания периода.
+      responses:
+        '200':
+          description: Количество заказов, выполненных каждым сотрудником
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EmployeeOrderCount'
+        '400':
+          description: Некорректный запрос
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /report/download:
+    get:
+      tags:
+        - Report download
+      summary: Скачать отчет по финансам
+      operationId: downloadReport
+      parameters:
+        - in: query
+          name: start_date
+          schema:
+            type: string
+            format: date
+          required: true
+          description: Дата начала периода.
+        - in: query
+          name: end_date
+          schema:
+            type: string
+            format: date
+          required: true
+          description: Дата окончания периода.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: byte
+        '400':
+          description: Некорректный запрос
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /customers/{customer_id}/orders:
+    get:
+      tags:
+        - Customers
+      summary: Получение истории заказов клиента
+      operationId: getCustomerOrderHistory
+      parameters:
+        - in: path
+          name: customer_id
+          required: true
+          schema:
+            type: integer
+          description: Идентификатор клиента.
+        - in: query
+          name: start_date
+          schema:
+            type: string
+            format: date
+          required: false
+          description: Дата начала периода для фильтрации заказов (необязательно).
+        - in: query
+          name: end_date
+          schema:
+            type: string
+            format: date
+          required: false
+          description: Дата окончания периода для фильтрации заказов (необязательно).
+      responses:
+        '200':
+          description: История заказов клиента
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CustomerOrderHistory'
+        '400':
+          description: Некорректный запрос
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Клиент не найден
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /products/expiring-soon:
+    get:
+      tags:
+        - Products
+      summary: Получение продуктов с истекающим сроком годности
+      operationId: getExpiringProducts
+      parameters:
+        - in: query
+          name: days
+          schema:
+            type: integer
+          required: true
+          description: Количество дней до истечения срока годности (например, 7 для получения продуктов, срок годности которых истекает в течение следующей недели).
+      responses:
+        '200':
+          description: Список продуктов с истекающим сроком годности
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+        '400':
+          description: Некорректный запрос
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /products/{product_name}/suppliers:
+    get:
+      summary: Получение всех поставщиков для определенного продукта
+      operationId: getSuppliersForProduct
+      parameters:
+        - name: product_name
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Список поставщиков, которые поставляют указанный продукт
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SupplierWithSupplies'
+        '400':
+          description: Некорректный запрос
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Продукт не найден
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Продукт не найден
+
+
+
+components:
+  schemas:
+    Employee:
+      type: object
+      properties:
+        employee_id:
+          type: integer
+          description: Идентификатор сотрудника
+        first_name:
+          type: string
+          description: Имя сотрудника
+        last_name:
+          type: string
+          description: Фамилия сотрудника
+        position_name:
+          type: string
+          description: Название позиции
+        salary:
+          type: number
+          format: float
+          description: Зарплата сотрудника
+
+    Dish:
+      type: object
+      properties:
+        dish_id:
+          type: integer
+          description: Идентификатор блюда
+        name:
+          type: string
+          description: Название блюда
+        price:
+          type: number
+          format: float
+          description: Цена блюда
+
+    Supplier:
+      type: object
+      properties:
+        supplier_id:
+          type: integer
+          description: Идентификатор поставщика
+        company_name:
+          type: string
+          description: Название компании-поставщика
+        stock_quantity:
+          type: integer
+          description: Количество товара на складе
+
+    Product:
+      type: object
+      properties:
+        product_id:
+          type: integer
+        name:
+          type: string
+        expiration_date:
+          type: string
+          format: date
+
+    EmployeeOrderCount:
+      type: object
+      properties:
+        employee_id:
+          type: integer
+        orders_count:
+          type: integer
+
+    DishWithIngredients:
+      type: object
+      properties:
+        dish_id:
+          type: integer
+        name:
+          type: string
+        ingredients:
+          type: array
+          items:
+            type: string
+
+    CustomerOrderHistory:
+      type: object
+      properties:
+        customer_id:
+          type: integer
+          description: Идентификатор клиента
+        orders:
+          type: array
+          items:
+            type: object
+            properties:
+              order_id:
+                type: integer
+                description: Идентификатор заказа
+              created_at:
+                type: string
+                format: date
+                description: Дата и время создания заказа
+              total_price:
+                type: number
+                format: float
+                description: Общая стоимость заказа
+              dishes:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    dish_id:
+                      type: integer
+                      description: Идентификатор блюда
+                    name:
+                      type: string
+                      description: Название блюда
+                    quantity:
+                      type: integer
+                      description: Количество блюда в заказе
+                    price:
+                      type: number
+                      format: float
+                      description: Цена блюда на момент заказа
+
+    SupplierWithSupplies:
+      type: object
+      properties:
+        supplier_id:
+          type: integer
+        company_name:
+          type: string
+        supplies:
+          type: array
+          items:
+            type: object
+            properties:
+              supply_id:
+                type: integer
+              date_from:
+                type: string
+                format: date-time
+              price:
+                type: number
+                format: float
+              quantity:
+                type: integer
+
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: Код ошибки
+        message:
+          type: string
+          description: Сообщение об ошибке
