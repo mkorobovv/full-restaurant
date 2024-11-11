@@ -26,7 +26,7 @@ func New(config config.HttpAdapter, apiSvc *api_service.APIService, pfService *p
 	ctr := controller.New(apiSvc, pfService)
 
 	routerWithOptions := controller_gen.HandlerWithOptions(
-		ctr, // TODO: controller methods
+		ctr,
 		controller_gen.ChiServerOptions{
 			BaseRouter: r.Router(),
 		},

@@ -15,10 +15,24 @@ func (ctr *Controller) GetCustomerOrderHistory(w http.ResponseWriter, r *http.Re
 }
 
 func (ctr *Controller) GetDishesWithIngredients(w http.ResponseWriter, r *http.Request) {
+	dishes, err := ctr.apiService.GetDishesWithIngredients(r.Context())
+	if err != nil {
+		writeErr(w, err.Error(), http.StatusInternalServerError)
+
+		return
+	}
+
+	err = json.NewEncoder(w).Encode(dishes)
+	if err != nil {
+		writeErr(w, err.Error(), http.StatusInternalServerError)
+
+		return
+	}
+
 	return
 }
 
-func (ctr *Controller) SearchDishesByIngredients(w http.ResponseWriter, r *http.Request) {
+func (ctr *Controller) GetDishesByIngredients(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
@@ -89,6 +103,20 @@ func (ctr *Controller) DownloadReport(w http.ResponseWriter, r *http.Request) {
 }
 
 func (ctr *Controller) GetMostPopularDishes(w http.ResponseWriter, r *http.Request) {
+	dishes, err := ctr.apiService.GetMostPopularDishes(r.Context())
+	if err != nil {
+		writeErr(w, err.Error(), http.StatusInternalServerError)
+
+		return
+	}
+
+	err = json.NewEncoder(w).Encode(dishes)
+	if err != nil {
+		writeErr(w, err.Error(), http.StatusInternalServerError)
+
+		return
+	}
+
 	return
 }
 

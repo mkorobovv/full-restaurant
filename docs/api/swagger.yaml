@@ -31,15 +31,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 
-  /api/dishes/search:
+  /api/dishes/get/by-ingredients:
     get:
       tags:
         - Dishes
       summary: Поиск блюд по ингредиентам
-      operationId: searchDishesByIngredients
+      operationId: getDishesByIngredients
       description: |
         Используйте `ingredients` как query параметр для поиска.
-        Пример: `/dishes/search?ingredients=tomato&ingredients=cheese`
+        Пример: `/api/dishes/get/by-ingredients?ingredient=tomato`
       responses:
         '200':
           description: Список блюд, содержащих указанные ингредиенты
@@ -63,8 +63,8 @@ paths:
       summary: Количество заказов, выполненных каждым сотрудником за период
       operationId: getEmployeeOrderCount
       description: |
-        Используйте `start_date` и `end_date` как query параметры для фильтрации по периоду.
-        Пример: `/employees/orders-count?start_date=2023-01-01&end_date=2023-12-31`
+        Используйте `date_from` и `date_to` как query параметры для фильтрации по периоду.
+        Пример: `/api/employees/orders-count?date_from=2023-01-01&date_to=2023-12-31`
       responses:
         '200':
           description: Количество заказов, выполненных каждым сотрудником
@@ -87,9 +87,7 @@ paths:
         - Products
       summary: Получение продуктов с истекающим сроком годности
       operationId: getExpiringProducts
-      description: |
-        Используйте `days` как query параметр для указания количества дней до истечения срока годности.
-        Пример: `/products/expiring-soon?days=7`
+      description: Получение продуктов с истекающим сроком годности
       responses:
         '200':
           description: Список продуктов с истекающим сроком годности
@@ -113,8 +111,8 @@ paths:
       summary: Скачать отчет по финансам
       operationId: downloadReport
       description: |
-        Используйте `start_date` и `end_date` как query параметры для фильтрации по периоду.
-        Пример: `/employees/orders-count?start_date=2023-01-01&end_date=2023-12-31`
+        Используйте `date_from` и `date_to` как query параметры для фильтрации по периоду.
+        Пример: `/employees/orders-count?date_from=2023-01-01&date_to=2023-12-31`
       responses:
         '200':
           description: OK
@@ -137,8 +135,8 @@ paths:
       summary: Получение истории заказов клиента
       operationId: getCustomerOrderHistory
       description: |
-        Используйте query параметры `start_date` и `end_date` для фильтрации истории заказов по периоду.
-        Пример: `/customers/{customer_id}/orders?start_date=2023-01-01&end_date=2023-12-31`
+        Используйте query параметры `date_from` и `date_to` для фильтрации истории заказов по периоду.
+        Пример: `/api/customers/{customer_id}/orders?date_from=2023-01-01&date_to=2023-12-31`
       parameters:
         - name: customer_id
           in: path
