@@ -270,7 +270,7 @@ components:
           description: Название позиции
         salary:
           type: number
-          format: float
+          format: double
           description: Зарплата сотрудника
 
     Dish:
@@ -284,7 +284,7 @@ components:
           description: Название блюда
         price:
           type: number
-          format: float
+          format: double
           description: Цена блюда
 
     Supplier:
@@ -326,6 +326,9 @@ components:
           type: integer
         name:
           type: string
+        price:
+          type: number
+          format: double
         ingredients:
           type: array
           items:
@@ -351,7 +354,7 @@ components:
                 description: Дата и время создания заказа
               total_price:
                 type: number
-                format: float
+                format: double
                 description: Общая стоимость заказа
               dishes:
                 type: array
@@ -369,7 +372,7 @@ components:
                       description: Количество блюда в заказе
                     price:
                       type: number
-                      format: float
+                      format: double
                       description: Цена блюда на момент заказа
 
     SupplierWithSupplies:
@@ -391,7 +394,7 @@ components:
                 format: date-time
               price:
                 type: number
-                format: float
+                format: double
               quantity:
                 type: integer
 

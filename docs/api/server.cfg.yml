@@ -1,0 +1,7 @@
+#oapi-codegen -config docs/api/server.cfg.yml docs/api/swagger.yml
+package: controller_gen
+output: internal/app/adapters/primary/http-adapter/controller-gen/controller.gen.go
+generate:
+  embedded-spec: true
+  strict-server: false
+  chi-server: true

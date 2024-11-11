@@ -1,0 +1,5 @@
+#oapi-codegen -config docs/api/dto.cfg.yml docs/api/swagger.yml
+package: controller_gen
+generate:
+  models: true
+output: internal/app/adapters/primary/http-adapter/controller-gen/dto.gen.go
