@@ -6,6 +6,8 @@ import (
 	"github.com/mkorobovv/full-restaurant/internal/app/adapters/primary/http-adapter/controller"
 	controller_gen "github.com/mkorobovv/full-restaurant/internal/app/adapters/primary/http-adapter/controller-gen"
 	"github.com/mkorobovv/full-restaurant/internal/app/adapters/primary/http-adapter/router"
+	api_service "github.com/mkorobovv/full-restaurant/internal/app/application/api-service"
+	print_form_service "github.com/mkorobovv/full-restaurant/internal/app/application/print-form-service"
 	"log/slog"
 	"net/http"
 
@@ -18,10 +20,10 @@ type HttpAdapter struct {
 	config config.HttpAdapter
 }
 
-func New(config config.HttpAdapter) *HttpAdapter {
+func New(config config.HttpAdapter, apiSvc *api_service.APIService, pfService *print_form_service.PrintFormService) *HttpAdapter {
 	r := router.New()
 
-	ctr := controller.New()
+	ctr := controller.New(apiSvc, pfService)
 
 	routerWithOptions := controller_gen.HandlerWithOptions(
 		ctr, // TODO: controller methods

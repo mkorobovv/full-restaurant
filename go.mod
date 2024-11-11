@@ -5,6 +5,8 @@ go 1.23.1
 require (
 	github.com/getkin/kin-openapi v0.128.0
 	github.com/go-chi/chi/v5 v5.1.0
+	github.com/jmoiron/sqlx v1.4.0
+	github.com/lib/pq v1.10.9
 	github.com/oapi-codegen/runtime v1.1.1
 )
 
