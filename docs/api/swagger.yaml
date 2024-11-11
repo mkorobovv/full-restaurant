@@ -9,7 +9,7 @@ info:
     Пользователи могут выполнять такие действия, как поиск блюд по ингредиентам, расчет средней стоимости заказов и получение информации о поставках.
 
 paths:
-  /dishes/get:
+  /api/dishes/get:
     get:
       tags:
         - Dishes
@@ -31,7 +31,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 
-  /dishes/search:
+  /api/dishes/search:
     get:
       tags:
         - Dishes
@@ -56,7 +56,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 
-  /employees/orders-count:
+  /api/employees/orders-count:
     get:
       tags:
         - Employees
@@ -81,7 +81,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 
-  /products/expiring-soon:
+  /api/products/expiring-soon:
     get:
       tags:
         - Products
@@ -106,7 +106,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 
-  /report/download:
+  /api/report/download:
     get:
       tags:
         - Report download
@@ -130,7 +130,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 
-  /customers/{customer_id}/orders:
+  /api/customers/{customer_id}/orders:
     get:
       tags:
         - Customers
@@ -169,7 +169,7 @@ paths:
                 $ref: '#/components/schemas/Error'
 
 
-  /products/{product_name}/suppliers:
+  /api/products/{product_name}/suppliers:
     get:
       summary: Получение всех поставщиков для определенного продукта
       operationId: getSuppliersForProduct
