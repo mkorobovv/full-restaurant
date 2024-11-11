@@ -37,15 +37,9 @@ paths:
         - Dishes
       summary: Поиск блюд по ингредиентам
       operationId: searchDishesByIngredients
-      parameters:
-        - in: query
-          name: ingredients
-          schema:
-            type: array
-            items:
-              type: string
-          required: true
-          description: Список ингредиентов для поиска блюд.
+      description: |
+        Используйте `ingredients` как query параметр для поиска.
+        Пример: `/dishes/search?ingredients=tomato&ingredients=cheese`
       responses:
         '200':
           description: Список блюд, содержащих указанные ингредиенты
@@ -68,21 +62,9 @@ paths:
         - Employees
       summary: Количество заказов, выполненных каждым сотрудником за период
       operationId: getEmployeeOrderCount
-      parameters:
-        - in: query
-          name: start_date
-          schema:
-            type: string
-            format: date
-          required: true
-          description: Дата начала периода.
-        - in: query
-          name: end_date
-          schema:
-            type: string
-            format: date
-          required: true
-          description: Дата окончания периода.
+      description: |
+        Используйте `start_date` и `end_date` как query параметры для фильтрации по периоду.
+        Пример: `/employees/orders-count?start_date=2023-01-01&end_date=2023-12-31`
       responses:
         '200':
           description: Количество заказов, выполненных каждым сотрудником
@@ -99,27 +81,40 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 
+  /products/expiring-soon:
+    get:
+      tags:
+        - Products
+      summary: Получение продуктов с истекающим сроком годности
+      operationId: getExpiringProducts
+      description: |
+        Используйте `days` как query параметр для указания количества дней до истечения срока годности.
+        Пример: `/products/expiring-soon?days=7`
+      responses:
+        '200':
+          description: Список продуктов с истекающим сроком годности
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+        '400':
+          description: Некорректный запрос
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
   /report/download:
     get:
       tags:
         - Report download
       summary: Скачать отчет по финансам
       operationId: downloadReport
-      parameters:
-        - in: query
-          name: start_date
-          schema:
-            type: string
-            format: date
-          required: true
-          description: Дата начала периода.
-        - in: query
-          name: end_date
-          schema:
-            type: string
-            format: date
-          required: true
-          description: Дата окончания периода.
+      description: |
+        Используйте `start_date` и `end_date` как query параметры для фильтрации по периоду.
+        Пример: `/employees/orders-count?start_date=2023-01-01&end_date=2023-12-31`
       responses:
         '200':
           description: OK
@@ -141,27 +136,16 @@ paths:
         - Customers
       summary: Получение истории заказов клиента
       operationId: getCustomerOrderHistory
+      description: |
+        Используйте query параметры `start_date` и `end_date` для фильтрации истории заказов по периоду.
+        Пример: `/customers/{customer_id}/orders?start_date=2023-01-01&end_date=2023-12-31`
       parameters:
-        - in: path
-          name: customer_id
+        - name: customer_id
+          in: path
           required: true
           schema:
             type: integer
           description: Идентификатор клиента.
-        - in: query
-          name: start_date
-          schema:
-            type: string
-            format: date
-          required: false
-          description: Дата начала периода для фильтрации заказов (необязательно).
-        - in: query
-          name: end_date
-          schema:
-            type: string
-            format: date
-          required: false
-          description: Дата окончания периода для фильтрации заказов (необязательно).
       responses:
         '200':
           description: История заказов клиента
@@ -184,34 +168,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 
-  /products/expiring-soon:
-    get:
-      tags:
-        - Products
-      summary: Получение продуктов с истекающим сроком годности
-      operationId: getExpiringProducts
-      parameters:
-        - in: query
-          name: days
-          schema:
-            type: integer
-          required: true
-          description: Количество дней до истечения срока годности (например, 7 для получения продуктов, срок годности которых истекает в течение следующей недели).
-      responses:
-        '200':
-          description: Список продуктов с истекающим сроком годности
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Product'
-        '400':
-          description: Некорректный запрос
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
 
   /products/{product_name}/suppliers:
     get:
@@ -248,8 +204,6 @@ paths:
                   message:
                     type: string
                     example: Продукт не найден
-
-
 
 components:
   schemas:
