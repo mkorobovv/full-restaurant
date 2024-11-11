@@ -15,7 +15,7 @@ const App = () => {
                 <Sidebar /> {/* Боковая панель */}
                 <Content>
                     <Routes>
-                        <Route path="/" element={<h1>Welcome to Restaurant Management</h1>} />
+                        <Route path="/" element={<h1>Система управления университетским кафе</h1>} />
                         <Route path="/dishes" element={<Dishes />} />
                         <Route path="/employees" element={<Employees />} />
                         <Route path="/products" element={<Products />} />

@@ -25,10 +25,10 @@ SELECT p.product_id, p.name, p.date_of_expiry
 FROM restaurant.products p
 WHERE p.date_of_expiry BETWEEN NOW() AND NOW() + INTERVAL '7 days';  -- Продукты с истекающим сроком годности в ближайшую неделю
 
--- 5. **Сумма затрат на поставки за месяц.**✅
+-- 5. **Сумма затрат на поставки за период.**✅
 SELECT SUM(price) AS total_cost
 FROM restaurant.supplies
-WHERE date_from >= DATE_TRUNC('month', NOW()) AND date_from < DATE_TRUNC('month', NOW()) + INTERVAL '1 month';
+WHERE date_from >= DATE_TRUNC('month', $1) AND date_from < DATE_TRUNC('month', $2);
 
 -- 6. **Список блюд и их ингредиентов с указанием количества.**✅
 SELECT d.name AS dish_name, p.name AS product_name, r.product_quantity
@@ -46,14 +46,17 @@ GROUP BY e.employee_id;
 
 -- 8. **Поиск чистой прибыли.**✅
 WITH revenue AS (
-    SELECT SUM(o.price) AS total_revenue
-    FROM restaurant.orders o
-             JOIN restaurant.transactions t ON o.transaction_id = t.transaction_id
+    SELECT SUM(t.price) AS total_revenue
+    FROM restaurant.transactions t
+    WHERE t.created_at BETWEEN $1 AND $2
+    AND t.transaction_type = 'Выплаты'
 ),
-     cost AS (
-         SELECT SUM(s.price) AS total_cost
-         FROM restaurant.supplies s
-     )
+cost AS (
+    SELECT SUM(s.price) AS total_cost
+    FROM restaurant.transactions t
+    WHERE t.created_at BETWEEN $1 AND $2
+      AND t.transaction_type <> 'Выплаты'
+)
 SELECT (r.total_revenue - c.total_cost) AS net_profit
 FROM revenue r, cost c;
 
@@ -71,8 +74,8 @@ WHERE date_from BETWEEN '2023-10-15' AND '2023-11-15';  -- Замените $1 �
 
 -- 11. **Средний чек за определенное время.**✅
 SELECT AVG(price) AS avg_order_value
-FROM restaurant.orders
-WHERE created_at BETWEEN '2023-10-15' AND '2023-11-15';  -- Замените $1 и $2 на временной диапазон
+FROM restaurant.orders o
+WHERE o.created_at BETWEEN '2023-10-15' AND '2023-11-15';  -- Замените $1 и $2 на временной диапазон
 
 -- 12. **Список самых популярных блюд.**✅
 SELECT d.name AS dish_name, COUNT(od.order_dish_id) AS dish_count

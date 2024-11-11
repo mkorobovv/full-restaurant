@@ -1,8 +1,14 @@
 package print_form_service
 
 type PrintFormService struct {
+	printFormsRepository printFormsRepository
 }
 
-func New() *PrintFormService {
-	return &PrintFormService{}
+type printFormsRepository interface {
+}
+
+func New(repo *printFormsRepository) *PrintFormService {
+	return &PrintFormService{
+		printFormsRepository: repo,
+	}
 }
