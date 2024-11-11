@@ -1,12 +1,12 @@
 CREATE SCHEMA restaurant;
 
-CREATE TABLE restaurant.positions (
+CREATE TABLE IF NOT EXISTS restaurant.positions (
     position_id BIGINT NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     position_name VARCHAR(50),
     salary NUMERIC(10, 2)
 );
 
-CREATE TABLE restaurant.employees (
+CREATE TABLE IF NOT EXISTS restaurant.employees (
     employee_id BIGINT NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     position_id BIGINT,
     first_name VARCHAR(50),
@@ -16,7 +16,7 @@ CREATE TABLE restaurant.employees (
     FOREIGN KEY (position_id) REFERENCES restaurant.positions(position_id) MATCH FULL
 );
 
-CREATE TABLE restaurant.customers (
+CREATE TABLE IF NOT EXISTS restaurant.customers (
     customer_id BIGINT NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     first_name VARCHAR(50),
     last_name VARCHAR(50),
@@ -25,14 +25,14 @@ CREATE TABLE restaurant.customers (
     discount INT
 );
 
-CREATE TABLE restaurant.transactions (
+CREATE TABLE IF NOT EXISTS restaurant.transactions (
     transaction_id BIGINT NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     transaction_type VARCHAR(70),
     created_at TIMESTAMP WITHOUT TIME ZONE DEFAULT NOW(),
     price NUMERIC(10, 2)
 );
 
-CREATE TABLE restaurant.orders (
+CREATE TABLE IF NOT EXISTS restaurant.orders (
     order_id BIGINT NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     customer_id BIGINT,
     transaction_id BIGINT,
@@ -43,13 +43,13 @@ CREATE TABLE restaurant.orders (
     FOREIGN KEY (transaction_id) REFERENCES restaurant.transactions(transaction_id) MATCH FULL
 );
 
-CREATE TABLE restaurant.dishes (
+CREATE TABLE IF NOT EXISTS restaurant.dishes (
     dish_id BIGINT NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     name VARCHAR(80),
     price NUMERIC(10, 2)
 );
 
-CREATE TABLE restaurant.products (
+CREATE TABLE IF NOT EXISTS restaurant.products (
     product_id BIGINT NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     name VARCHAR(50),
     stock_quantity INT,
@@ -59,7 +59,7 @@ CREATE TABLE restaurant.products (
     date_of_expiry DATE
 );
 
-CREATE TABLE restaurant.recipes (
+CREATE TABLE IF NOT EXISTS restaurant.recipes (
     recipe_id BIGINT NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     product_id BIGINT,
     product_quantity INT,
@@ -69,7 +69,7 @@ CREATE TABLE restaurant.recipes (
     FOREIGN KEY (dish_id) REFERENCES restaurant.dishes(dish_id) MATCH FULL
 );
 
-CREATE TABLE restaurant.suppliers (
+CREATE TABLE IF NOT EXISTS restaurant.suppliers (
     supplier_id BIGINT NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     company_name VARCHAR(50),
     chief_name VARCHAR(50),
@@ -77,7 +77,7 @@ CREATE TABLE restaurant.suppliers (
     address VARCHAR(50)
 );
 
-CREATE TABLE restaurant.supplies (
+CREATE TABLE IF NOT EXISTS restaurant.supplies (
     supply_id BIGINT NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     supplier_id BIGINT,
     transaction_id BIGINT,
@@ -88,7 +88,7 @@ CREATE TABLE restaurant.supplies (
     FOREIGN KEY (transaction_id) REFERENCES restaurant.transactions(transaction_id) MATCH FULL
 );
 
-CREATE TABLE restaurant.supply_product (
+CREATE TABLE IF NOT EXISTS restaurant.supply_product (
     supply_product_id BIGINT NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     quantity INT,
     product_id BIGINT,
@@ -98,7 +98,7 @@ CREATE TABLE restaurant.supply_product (
     FOREIGN KEY (supply_id) REFERENCES restaurant.supplies(supply_id) MATCH FULL
 );
 
-CREATE TABLE restaurant.order_dish (
+CREATE TABLE IF NOT EXISTS restaurant.order_dish (
     order_dish_id BIGINT NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     dish_id BIGINT,
     order_id BIGINT,
@@ -109,7 +109,7 @@ CREATE TABLE restaurant.order_dish (
     FOREIGN KEY (order_id) REFERENCES restaurant.orders(order_id) MATCH FULL
 );
 
-CREATE TABLE restaurant.payments (
+CREATE TABLE IF NOT EXISTS restaurant.payments (
     payment_id BIGINT NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     employee_id BIGINT NOT NULL,
     transaction_id BIGINT NOT NULL,
@@ -120,7 +120,7 @@ CREATE TABLE restaurant.payments (
     FOREIGN KEY (transaction_id) REFERENCES restaurant.transactions(transaction_id) MATCH FULL
 );
 
-CREATE TABLE restaurant.order_employee (
+CREATE TABLE IF NOT EXISTS restaurant.order_employee (
     order_employee_id BIGINT NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     employee_id BIGINT,
     order_id BIGINT,
