@@ -191,13 +191,13 @@ paths:
   /api/products/{product_name}/suppliers:
     get:
       summary: Получение всех поставщиков для определенного продукта
-      operationId: getSuppliersForProduct
+      operationId: getSuppliersByProduct
       parameters:
         - name: product_name
           in: path
           required: true
           schema:
-            type: integer
+            type: string
       responses:
         '200':
           description: Список поставщиков, которые поставляют указанный продукт

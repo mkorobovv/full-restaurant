@@ -37,3 +37,11 @@ type Order struct {
 	CreatedAt     time.Time `json:"created_at"`
 	Price         float64   `json:"price"`
 }
+
+type GetExpiringSoonProductsResponse struct {
+	ProductID        int64  `db:"product_id"`
+	Name             string `db:"name"`
+	DateOfProduction string `db:"date_of_production"`
+	DateOfExpiry     string `db:"date_of_expiry"`
+	Status           string `db:"status"`
+}
