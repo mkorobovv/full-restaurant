@@ -21,9 +21,16 @@ FROM restaurant.suppliers s
 WHERE p.stock_quantity > $1;  -- Замените $1 на заданное количество
 
 -- 4. **Поиск продуктов с истекающим сроком годности.**✅
-SELECT p.product_id, p.name, p.date_of_expiry
-FROM restaurant.products p
-WHERE p.date_of_expiry BETWEEN NOW() AND NOW() + INTERVAL '7 days';  -- Продукты с истекающим сроком годности в ближайшую неделю
+SELECT
+    p.name,
+    p.date_of_expiry,
+    CASE
+        WHEN p.date_of_expiry BETWEEN NOW() AND NOW() + INTERVAL '7 days' THEN 'expiring soon'
+        WHEN p.date_of_expiry < NOW() THEN 'expired'
+        ELSE 'ok'
+    END AS status
+FROM
+    restaurant.products p; -- Продукты с истекающим сроком годности в ближайшую неделю  -- Продукты с истекающим сроком годности в ближайшую неделю
 
 -- 5. **Сумма затрат на поставки за период.**✅
 SELECT SUM(price) AS total_cost
