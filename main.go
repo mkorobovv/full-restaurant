@@ -26,7 +26,7 @@ func main() {
 
 	repo.Start()
 
-	pfService := print_form_service.New()
+	pfService := print_form_service.New(repo)
 	apiSvc := api_service.New(repo)
 
 	httpAdapter := http_adapter.New(config.Adapters.Primary.HttpAdapter, apiSvc, pfService)

@@ -7,7 +7,7 @@ type PrintFormService struct {
 type printFormsRepository interface {
 }
 
-func New(repo *printFormsRepository) *PrintFormService {
+func New(repo printFormsRepository) *PrintFormService {
 	return &PrintFormService{
 		printFormsRepository: repo,
 	}
