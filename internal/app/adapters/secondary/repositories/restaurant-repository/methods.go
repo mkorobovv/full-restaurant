@@ -4,10 +4,10 @@ import (
 	"context"
 	api_service "github.com/mkorobovv/full-restaurant/internal/app/application/api-service"
 	"github.com/mkorobovv/full-restaurant/internal/app/domain/dish"
-	"github.com/mkorobovv/full-restaurant/internal/app/domain/product"
+	"github.com/mkorobovv/full-restaurant/internal/app/domain/supplier"
 )
 
-func (repo *RestaurantRepository) GetExpiringProducts(ctx context.Context) (products []product.Product, err error) {
+func (repo *RestaurantRepository) GetExpiringProducts(ctx context.Context) (responses []api_service.GetExpiringSoonProductsResponse, err error) {
 	//TODO implement me
 	panic("implement me")
 }
@@ -33,6 +33,11 @@ func (repo *RestaurantRepository) GetMostPopularDishes(ctx context.Context) (res
 }
 
 func (repo *RestaurantRepository) GetCustomerOrderHistory(ctx context.Context, customerID int64) (response api_service.GetCustomerOrderHistoryResponse, err error) {
+	//TODO implement me
+	panic("implement me")
+}
+
+func (repo *RestaurantRepository) GetSuppliersByProduct(ctx context.Context, productName string) (suppliers []supplier.Supplier, err error) {
 	//TODO implement me
 	panic("implement me")
 }

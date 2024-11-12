@@ -287,6 +287,8 @@ components:
         company_name:
           type: string
           description: Название компании-поставщика
+        chief_name:
+          type: string
         stock_quantity:
           type: integer
           description: Количество товара на складе
@@ -298,15 +300,26 @@ components:
           type: integer
         name:
           type: string
-        expiration_date:
+        date_of_production:
           type: string
           format: date
+        date_of_expiry:
+          type: string
+          format: date
+        status:
+          type: string
 
     EmployeeOrderCount:
       type: object
       properties:
         employee_id:
           type: integer
+        first_name:
+          type: string
+        last_name:
+          type: string
+        phone_number:
+          type: string
         orders_count:
           type: integer
 
@@ -331,6 +344,10 @@ components:
         customer_id:
           type: integer
           description: Идентификатор клиента
+        first_name:
+          type: string
+        last_name:
+          type: string
         orders:
           type: array
           items:
