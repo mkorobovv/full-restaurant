@@ -207,3 +207,7 @@ WHERE e.salary > ANY (
 SELECT name, price
 FROM restaurant.dishes
 WHERE price > (SELECT AVG(price) FROM restaurant.dishes);
+
+SELECT
+
+FROM orde

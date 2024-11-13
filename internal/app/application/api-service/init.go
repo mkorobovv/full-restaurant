@@ -12,7 +12,7 @@ type APIService struct {
 }
 
 type restaurantRepository interface {
-	// Products
+	// Supplies
 
 	GetExpiringProducts(ctx context.Context) (products []GetExpiringSoonProductsResponse, err error)
 

@@ -84,7 +84,7 @@ paths:
   /api/products/expiring-soon:
     get:
       tags:
-        - Products
+        - Supplies
       summary: Получение продуктов с истекающим сроком годности
       operationId: getExpiringProducts
       description: Получение продуктов с истекающим сроком годности

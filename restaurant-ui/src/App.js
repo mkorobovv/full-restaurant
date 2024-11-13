@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Sidebar from './components/Sidebar'; // Импортируем Sidebar
 import Dishes from './components/Dishes';
 import Employees from './components/Employees';
-import Products from './components/Products';
+import Supplies from './components/Supplies';
 import Customers from './components/Customers';
 import Content from './components/Content'; // Импортируем Content для отображения контента
 
@@ -18,7 +18,7 @@ const App = () => {
                         <Route path="/" element={<h1>Система управления университетским кафе</h1>} />
                         <Route path="/dishes" element={<Dishes />} />
                         <Route path="/employees" element={<Employees />} />
-                        <Route path="/products" element={<Products />} />
+                        <Route path="/supplies" element={<Supplies />} />
                         <Route path="/customers" element={<Customers />} />
                     </Routes>
                 </Content>

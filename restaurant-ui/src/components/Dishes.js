@@ -1,6 +1,7 @@
 // src/components/Dishes.js
 import React, { useState, useEffect } from "react";
 import { getDishesWithIngredients, getDishesByIngredients, getMostPopularDishes, getExpiringProducts } from "../api";
+import ErrorModal from "./ErrorModal";
 
 const Dishes = () => {
     const [dishes, setDishes] = useState([]);
@@ -10,47 +11,60 @@ const Dishes = () => {
     const [ingredient, setIngredient] = useState("");
 
     const fetchDishes = async () => {
+        setError(null); // Сброс ошибки перед запросом
         try {
             const data = await getDishesWithIngredients();
             setDishes(data);
             setExpiringProducts([]);
         } catch (err) {
-            setError(err.message);
+            setError("Ошибка загрузки блюд: " + err.message);
         }
     };
 
     const fetchDishesByIngredient = async () => {
+        setError(null);
+        if (!ingredient) {
+            setError("Пожалуйста, введите название продукта.");
+            return;
+        }
+
         try {
             const data = await getDishesByIngredients(ingredient);
             setDishes(data);
             setExpiringProducts([]);
         } catch (err) {
-            setError(err.message);
+            setError("Ошибка поиска по ингредиенту: " + err.message);
         }
     };
 
     const fetchMostPopularDishes = async () => {
+        setError(null); // Сброс ошибки перед запросом
         try {
             const data = await getMostPopularDishes();
             setDishes(data);
             setExpiringProducts([]);
         } catch (err) {
-            setError(err.message);
+            setError("Ошибка загрузки популярных блюд: " + err.message);
         }
     };
 
     const fetchExpiringProducts = async () => {
+        setError(null); // Сброс ошибки перед запросом
         try {
             const data = await getExpiringProducts();
             setExpiringProducts(data);
             setDishes([]);
         } catch (err) {
-            setError(err.message);
+            setError("Ошибка загрузки продуктов с истекающим сроком годности: " + err.message);
         }
     };
 
+    // При смене вкладки сбрасываем ошибку и запускаем соответствующую функцию
     useEffect(() => {
+        setError(null); // Сброс ошибки при переключении вкладок
         if (activeTab === "dishes") fetchDishes();
+        if (activeTab === "popular") fetchMostPopularDishes();
+        if (activeTab === "expiring") fetchExpiringProducts();
     }, [activeTab]);
 
     const handleIngredientSearch = (e) => {
@@ -58,9 +72,13 @@ const Dishes = () => {
         fetchDishesByIngredient();
     };
 
+    const closeErrorModal = () => {
+        setError(null);
+    };
+
     return (
         <div className="content">
-            <h1>Меню</h1>
+            <h1>Блюда</h1>
 
             {/* Навигационная панель */}
             <div className="navbar">
@@ -78,13 +96,14 @@ const Dishes = () => {
                         value={ingredient}
                         onChange={(e) => setIngredient(e.target.value)}
                         placeholder="Введите ингредиент"
+                        required
                     />
                     <button type="submit" className="fetch-button">Поиск</button>
                 </form>
             )}
 
-            {/* Ошибки, если есть */}
-            {error && <div className="error">Ошибка: {error}</div>}
+            {/* Модальное окно с ошибкой */}
+            {error && <ErrorModal message={error} onClose={closeErrorModal} />}
 
             {/* Контент в зависимости от выбранной вкладки */}
             <div className="dishes-list">

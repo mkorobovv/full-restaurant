@@ -10,13 +10,13 @@ const Sidebar = () => {
             <h1>Университетское кафе</h1>
             <ul>
                 <li>
-                    <Link to="/dishes" className={location.pathname === "/dishes" ? "active" : ""}>Меню</Link>
+                    <Link to="/dishes" className={location.pathname === "/dishes" ? "active" : ""}>Блюда</Link>
                 </li>
                 <li>
                     <Link to="/employees" className={location.pathname === "/employees" ? "active" : ""}>Сотрудники</Link>
                 </li>
                 <li>
-                    <Link to="/products" className={location.pathname === "/products" ? "active" : ""}>Поставки</Link>
+                    <Link to="/supplies" className={location.pathname === "/supplies" ? "active" : ""}>Поставки</Link>
                 </li>
                 <li>
                     <Link to="/customers" className={location.pathname === "/customers" ? "active" : ""}>Клиенты</Link>
