@@ -8,7 +8,7 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    color: #f5f5f5; /* Белый текст для контраста */
+    color: #333; /* Белый текст для контраста */
 }
 
 /* Контейнер с боковой панелью и контентом */
@@ -176,11 +176,6 @@ body {
     margin-top: 10px;
 }
 
-h1 {
-    font-size: 24px;
-    margin-bottom: 20px;
-}
-
 .ingredient-search {
     margin-bottom: 20px;
     display: flex;
@@ -213,6 +208,10 @@ h1 {
     margin-top: 20px;
 }
 
+.supplier-card h2 {
+    color: white;
+}
+
 .supplier {
     border: 1px solid #ddd;
     padding: 15px;
@@ -243,12 +242,13 @@ h1 {
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
 }
 
-/* Заголовок */
+/* Заголовок отчета */
 h1 {
     text-align: center;
-    font-size: 24px;
-    color: #333;
+    font-size: 28px;
     margin-bottom: 20px;
+    font-weight: 600;
+    color: white;
 }
 
 /* Оформление формы */
@@ -296,7 +296,7 @@ table {
 }
 
 table, th, td {
-    border: 1px solid #ddd;
+    border: 1px solid #333;
 }
 
 th, td {
@@ -306,7 +306,7 @@ th, td {
 }
 
 th {
-    background-color: #f7f7f7;
+    background-color: #333;
     font-weight: bold;
 }
 
@@ -434,6 +434,7 @@ td {
 .employee-card h3 {
     font-size: 20px;
     margin-bottom: 10px;
+    color: white;
 }
 
 .employee-card p {
@@ -474,4 +475,89 @@ td {
 
 .dish-item strong {
     color: #FFD700; /* Жёлтый цвет для названия блюда */
+}
+
+/* Форма для выбора диапазона дат */
+.date-picker {
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    max-width: 250px;
+}
+
+.date-picker label {
+    font-size: 16px;
+    color: #333;
+}
+
+.fetch-btn {
+    background-color: #2b2b2b;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 15px;
+    border-radius: 5px;
+}
+
+.fetch-btn:hover {
+    background-color: red;
+}
+
+/* Стили для контейнера отчета */
+.report-container {
+    margin-top: 30px;
+}
+
+/* Стили для карточки отчета */
+.report-card {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.report-card h2 {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* Стили для таблицы */
+.report-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-size: 16px;
+}
+
+.report-table th, .report-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.report-table th {
+    background-color: #f8f8f8;
+    font-weight: 600;
+}
+
+.report-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+.report-table td {
+    color: #555;
+}
+
+/* Стили для формы и кнопки */
+.date-picker input {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-top: 5px;
 }

@@ -3,14 +3,12 @@ package controller
 import (
 	"encoding/json"
 	"errors"
-	"fmt"
 	"log"
 	"net/http"
 	"time"
 
 	controller_gen "github.com/mkorobovv/full-restaurant/internal/app/adapters/primary/http-adapter/controller-gen"
 	api_service "github.com/mkorobovv/full-restaurant/internal/app/application/api-service"
-	print_form_service "github.com/mkorobovv/full-restaurant/internal/app/application/print-form-service"
 )
 
 func (ctr *Controller) GetCustomerOrderHistory(w http.ResponseWriter, r *http.Request, customerId int) {
@@ -130,6 +128,28 @@ func (ctr *Controller) GetDishesByIngredients(w http.ResponseWriter, r *http.Req
 	}
 }
 
+func (ctr *Controller) GetUnorderedDishes(w http.ResponseWriter, r *http.Request) {
+	dishes, err := ctr.apiService.GetUnorderedDishes(r.Context())
+	if err != nil {
+		writeErr(w, err.Error(), http.StatusInternalServerError)
+
+		return
+	}
+
+	if len(dishes) == 0 {
+		writeErr(w, errors.New("dishes not found").Error(), http.StatusNotFound)
+
+		return
+	}
+
+	err = json.NewEncoder(w).Encode(dishes)
+	if err != nil {
+		writeErr(w, err.Error(), http.StatusInternalServerError)
+
+		return
+	}
+}
+
 func (ctr *Controller) GetEmployeeOrderCount(w http.ResponseWriter, r *http.Request) {
 	dateFromQueryParam := r.URL.Query().Get("date_from")
 	dateToQueryParam := r.URL.Query().Get("date_to")
@@ -224,26 +244,20 @@ func (ctr *Controller) DownloadReport(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	req := print_form_service.CreateReportRequest{
+	req := api_service.CreateReportRequest{
 		DateTo:   dateTo,
 		DateFrom: dateFrom,
 	}
 
-	report, err := ctr.printFormService.CreateReport(r.Context(), req)
+	report, err := ctr.apiService.CreateReport(r.Context(), req)
 	if err != nil {
 		writeErr(w, err.Error(), http.StatusInternalServerError)
 
 		return
 	}
 
-	w.Header().Set("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet") // Тип для XLSX файлов
-	w.Header().Set("Content-Disposition", "attachment; filename=report.xlsx")                           // Указываем имя файла для скачивания
-	w.Header().Set("Content-Length", fmt.Sprintf("%d", len(report)))                                    // Устанавливаем размер контента
-
-	_, err = w.Write(report)
+	err = json.NewEncoder(w).Encode(report)
 	if err != nil {
-		log.Println(err)
-
 		writeErr(w, err.Error(), http.StatusInternalServerError)
 
 		return

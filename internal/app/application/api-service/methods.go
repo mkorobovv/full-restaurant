@@ -69,3 +69,49 @@ func (svc *APIService) GetSuppliersByProduct(ctx context.Context, productName st
 
 	return suppliers, nil
 }
+
+func (svc *APIService) GetUnorderedDishes(ctx context.Context) (dishes []dish.RecieveDish, err error) {
+	dishes, err = svc.restaurantRepository.GetUnorderedDishes(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return dishes, nil
+}
+
+func (svc *APIService) CreateReport(ctx context.Context, request CreateReportRequest) (Report, error) {
+	lostRevenue, err := svc.restaurantRepository.GetLostRevenue(ctx, request)
+	if err != nil {
+		return Report{}, err
+	}
+
+	avgOrderCheck, err := svc.restaurantRepository.GetAverageOrderCheck(ctx, request)
+	if err != nil {
+		return Report{}, err
+	}
+
+	avgSupplyCheck, err := svc.restaurantRepository.GetAverageSupplyCheck(ctx, request)
+	if err != nil {
+		return Report{}, err
+	}
+
+	netProfit, err := svc.restaurantRepository.GetNetProfit(ctx, request)
+	if err != nil {
+		return Report{}, err
+	}
+
+	amountSupplyCosts, err := svc.restaurantRepository.GetAmountSupplyCosts(ctx, request)
+	if err != nil {
+		return Report{}, err
+	}
+
+	return Report{
+		LostRevenue:        lostRevenue,
+		AmountSupplyCosts:  amountSupplyCosts,
+		AverageOrderCheck:  avgOrderCheck,
+		AverageSupplyCheck: avgSupplyCheck,
+		NetProfit:          netProfit,
+		DateFrom:           request.DateFrom,
+		DateTo:             request.DateTo,
+	}, nil
+}

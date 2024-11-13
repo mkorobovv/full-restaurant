@@ -24,8 +24,7 @@ func (repo *RestaurantRepository) GetExpiringProducts(ctx context.Context) (resp
 	FROM
     restaurant.products p
 	WHERE
-    p.date_of_expiry < NOW()
-    OR p.date_of_expiry BETWEEN NOW() AND NOW() + INTERVAL '7 days';`
+    p.date_of_expiry < NOW() + INTERVAL '7 days';`
 
 	err = repo.DB.SelectContext(ctx, &responses, query)
 
@@ -106,6 +105,28 @@ func (repo *RestaurantRepository) GetDishesByIngredient(ctx context.Context, ing
  	WHERE p.name LIKE $1;`
 
 	err = repo.DB.SelectContext(ctx, &dishes, query, ingredient)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return dishes, nil
+}
+
+func (repo *RestaurantRepository) GetUnorderedDishes(ctx context.Context) (dishes []dish.RecieveDish, err error) {
+	const query = `
+		SELECT d.dish_id,
+			   d.name AS dish_name,
+			   d.price
+		FROM restaurant.dishes d
+		WHERE NOT EXISTS (
+			SELECT 1
+			FROM restaurant.order_dish od
+			WHERE od.dish_id = d.dish_id
+		);
+	`
+
+	err = repo.DB.SelectContext(ctx, &dishes, query)
 
 	if err != nil {
 		return nil, err

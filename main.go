@@ -4,7 +4,6 @@ import (
 	"context"
 	restaurant_repository "github.com/mkorobovv/full-restaurant/internal/app/adapters/secondary/repositories/restaurant-repository"
 	api_service "github.com/mkorobovv/full-restaurant/internal/app/application/api-service"
-	print_form_service "github.com/mkorobovv/full-restaurant/internal/app/application/print-form-service"
 	"log"
 	"log/slog"
 	"os"
@@ -26,10 +25,9 @@ func main() {
 
 	repo.Start()
 
-	pfService := print_form_service.New(repo)
 	apiSvc := api_service.New(repo)
 
-	httpAdapter := http_adapter.New(config.Adapters.Primary.HttpAdapter, apiSvc, pfService)
+	httpAdapter := http_adapter.New(config.Adapters.Primary.HttpAdapter, apiSvc)
 
 	g.Go(func() error {
 		err := httpAdapter.Start(ctx)

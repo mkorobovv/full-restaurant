@@ -1,5 +1,7 @@
 package api_service
 
+import "time"
+
 type GetEmployeesOrdersCountResponse struct {
 	EmployeeID   int64   `json:"employee_id" db:"employee_id"`
 	PositionID   int     `json:"position_id" db:"position_id"`
@@ -50,4 +52,14 @@ type GetExpiringSoonProductsResponse struct {
 	DateOfProduction string `db:"date_of_production" json:"date_of_production"`
 	DateOfExpiry     string `db:"date_of_expiry" json:"date_of_expiry"`
 	Status           string `db:"status" json:"status"`
+}
+
+type Report struct {
+	LostRevenue        float64   `json:"lost_revenue"`
+	NetProfit          float64   `json:"net_profit"`
+	AverageSupplyCheck float64   `json:"average_supply_check"`
+	AverageOrderCheck  float64   `json:"average_order_check"`
+	AmountSupplyCosts  float64   `json:"amount_supply_costs"`
+	DateFrom           time.Time `json:"date_from"`
+	DateTo             time.Time `json:"date_to"`
 }

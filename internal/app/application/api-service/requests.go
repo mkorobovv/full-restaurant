@@ -12,3 +12,8 @@ type GetCustomerOrdersHistoryRequest struct {
 	DateFrom   time.Time `json:"date_from"`
 	DateTo     time.Time `json:"date_to"`
 }
+
+type CreateReportRequest struct {
+	DateFrom time.Time
+	DateTo   time.Time
+}
