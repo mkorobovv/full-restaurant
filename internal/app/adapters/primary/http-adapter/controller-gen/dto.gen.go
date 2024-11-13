@@ -12,7 +12,9 @@ import (
 // CustomerOrderHistory defines model for CustomerOrderHistory.
 type CustomerOrderHistory struct {
 	// CustomerId Идентификатор клиента
-	CustomerId *int `json:"customer_id,omitempty"`
+	CustomerId *int    `json:"customer_id,omitempty"`
+	FirstName  *string `json:"first_name,omitempty"`
+	LastName   *string `json:"last_name,omitempty"`
 	Orders     *[]struct {
 		// CreatedAt Дата и время создания заказа
 		CreatedAt *openapi_types.Date `json:"created_at,omitempty"`
@@ -60,8 +62,11 @@ type DishWithIngredients struct {
 
 // EmployeeOrderCount defines model for EmployeeOrderCount.
 type EmployeeOrderCount struct {
-	EmployeeId  *int `json:"employee_id,omitempty"`
-	OrdersCount *int `json:"orders_count,omitempty"`
+	EmployeeId  *int    `json:"employee_id,omitempty"`
+	FirstName   *string `json:"first_name,omitempty"`
+	LastName    *string `json:"last_name,omitempty"`
+	OrdersCount *int    `json:"orders_count,omitempty"`
+	PhoneNumber *string `json:"phone_number,omitempty"`
 }
 
 // Error defines model for Error.
@@ -75,9 +80,11 @@ type Error struct {
 
 // Product defines model for Product.
 type Product struct {
-	ExpirationDate *openapi_types.Date `json:"expiration_date,omitempty"`
-	Name           *string             `json:"name,omitempty"`
-	ProductId      *int                `json:"product_id,omitempty"`
+	DateOfExpiry     *openapi_types.Date `json:"date_of_expiry,omitempty"`
+	DateOfProduction *openapi_types.Date `json:"date_of_production,omitempty"`
+	Name             *string             `json:"name,omitempty"`
+	ProductId        *int                `json:"product_id,omitempty"`
+	Status           *string             `json:"status,omitempty"`
 }
 
 // SupplierWithSupplies defines model for SupplierWithSupplies.

@@ -103,3 +103,75 @@ body {
     line-height: 1.6;
     color: #ccc; /* Светлый серый цвет для текста */
 }
+
+.navbar {
+    display: flex;
+    justify-content: center; /* Выровнять кнопки по центру */
+    gap: 20px;
+    width: 100%; /* Растянуть на всю ширину */
+    background-color: #222; /* Темный фон для контраста */
+    padding: 15px 0;
+    border-radius: 5px; /* Скругленные углы для красоты */
+}
+
+.navbar button {
+    padding: 10px 20px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.navbar .active-tab {
+    background-color: #ff4d4d; /* Цвет активной вкладки */
+}
+
+.fetch-button {
+    padding: 10px 20px;
+    background-color: #ff4d4d;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.fetch-button:hover {
+    background-color: #e60000;
+}
+
+.ingredient-search {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Центрирует строку поиска */
+    margin: 20px 0;
+}
+
+.ingredient-search input {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 300px; /* Фиксированная ширина */
+    margin-right: 10px;
+}
+
+
+.dishes-list {
+    margin-top: 20px;
+}
+
+.dish {
+    margin-bottom: 15px;
+    padding: 15px;
+    background-color: #222;
+    border-radius: 5px;
+    color: #fff;
+}
+
+.error {
+    color: #ff4d4d;
+    margin-top: 10px;
+}

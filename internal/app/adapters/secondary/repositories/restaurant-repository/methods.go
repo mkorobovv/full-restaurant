@@ -6,28 +6,30 @@ import (
 	_ "github.com/lib/pq"
 	api_service "github.com/mkorobovv/full-restaurant/internal/app/application/api-service"
 	"github.com/mkorobovv/full-restaurant/internal/app/domain/dish"
-	"github.com/mkorobovv/full-restaurant/internal/app/domain/product"
+	"github.com/mkorobovv/full-restaurant/internal/app/domain/supplier"
 )
 
-func (repo *RestaurantRepository) GetExpiringProducts(ctx context.Context) (products []product.Product, err error) {
+func (repo *RestaurantRepository) GetExpiringProducts(ctx context.Context) (responses []api_service.GetExpiringSoonProductsResponse, err error) {
 	query := `SELECT
     p.name,
     p.date_of_expiry,
     CASE
-        WHEN p.date_of_expiry BETWEEN NOW() AND NOW() + INTERVAL '7 days' THEN 'expiring soon'
         WHEN p.date_of_expiry < NOW() THEN 'expired'
-        ELSE 'ok'
-    END AS status
+        WHEN p.date_of_expiry BETWEEN NOW() AND NOW() + INTERVAL '7 days' THEN 'expiring soon'
+        END AS status
 	FROM
-    restaurant.products p`
+    restaurant.products p
+	WHERE
+    p.date_of_expiry < NOW()
+    OR p.date_of_expiry BETWEEN NOW() AND NOW() + INTERVAL '7 days';`
 
-	err = repo.DB.SelectContext(ctx, &products, query)
+	err = repo.DB.SelectContext(ctx, &responses, query)
 
 	if err != nil {
 		return nil, err
 	}
 
-	return products, err
+	return responses, nil
 }
 
 func (repo *RestaurantRepository) GetEmployeesOrdersCount(ctx context.Context, request api_service.GetEmployeesOrdersCountRequest) (responses []api_service.GetEmployeesOrdersCountResponse, err error) {
@@ -96,6 +98,65 @@ func (repo *RestaurantRepository) GetMostPopularDishes(ctx context.Context) (res
 }
 
 func (repo *RestaurantRepository) GetCustomerOrderHistory(ctx context.Context, customerID int64) (response api_service.GetCustomerOrderHistoryResponse, err error) {
-	//TODO implement me
-	panic("implement me")
+	query := `SELECT
+    c.customer_id,
+    c.first_name,
+    c.last_name,
+    c.phone_number,
+    c.email,
+    c.discount,
+    (
+        SELECT ARRAY_TO_JSON(ARRAY_AGG(ROW_TO_JSON(o))) FROM (
+            SELECT
+                o.order_id,
+                o.transaction_id,
+                o.created_at,
+                o.price,
+                (
+                    SELECT ARRAY_TO_JSON(ARRAY_AGG(ROW_TO_JSON(e))) FROM (
+                        SELECT
+                            d.name,
+                            od.dish_quantity,
+                            od.dish_price
+                        FROM restaurant.dishes d
+                        JOIN restaurant.order_dish od ON d.dish_id = od.dish_id
+                        WHERE od.order_id = o.order_id
+                    ) e
+                ) AS dishes
+            FROM restaurant.orders o
+            WHERE o.customer_id = c.customer_id
+        ) o
+    ) AS orders
+	FROM restaurant.customers c
+	WHERE c.customer_id = $1;`
+
+	err = repo.DB.GetContext(ctx, &response, query, customerID)
+
+	if err != nil {
+		return api_service.GetCustomerOrderHistoryResponse{}, err
+	}
+
+	return response, nil
+}
+
+func (repo *RestaurantRepository) GetSuppliersByProduct(ctx context.Context, productName string) (suppliers []supplier.Supplier, err error) {
+	query := `SELECT
+    s.supplier_id,
+    s.chief_name,
+    s.company_name,
+    s.email,
+    s.address
+	FROM restaurant.suppliers s
+    JOIN restaurant.supplies sp ON sp.supplier_id = s.supplier_id
+    JOIN restaurant.supply_product spd ON spd.supply_id = sp.supply_id
+    JOIN restaurant.products p ON p.product_id = spd.product_id
+	WHERE p.name LIKE 'Капуста'`
+
+	err = repo.DB.GetContext(ctx, &suppliers, query)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return suppliers, nil
 }

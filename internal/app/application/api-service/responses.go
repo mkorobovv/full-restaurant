@@ -21,13 +21,13 @@ type GetMostPopularDishesResponse struct {
 }
 
 type GetCustomerOrderHistoryResponse struct {
-	CustomerID  int64   `json:"customer_id"`
-	FirstName   string  `json:"first_name"`
-	LastName    string  `json:"last_name"`
-	PhoneNumber string  `json:"phone_number"`
-	Email       string  `json:"email"`
-	Discount    int     `json:"discount"`
-	Orders      []Order `json:"orders"`
+	CustomerID  int64   `json:"customer_id" db:"customer_id"`
+	FirstName   string  `json:"first_name"  db:"first_name"`
+	LastName    string  `json:"last_name"   db:"last_name"`
+	PhoneNumber string  `json:"phone_number" db:"phone_number"`
+	Email       string  `json:"email" db:"email"`
+	Discount    int     `json:"discount" db:"discount"`
+	Orders      []Order `json:"orders" db:"orders"`
 }
 
 type Order struct {
@@ -36,4 +36,12 @@ type Order struct {
 	TransactionID int64     `json:"transaction_id"`
 	CreatedAt     time.Time `json:"created_at"`
 	Price         float64   `json:"price"`
+}
+
+type GetExpiringSoonProductsResponse struct {
+	ProductID        int64  `db:"product_id"`
+	Name             string `db:"name"`
+	DateOfProduction string `db:"date_of_production"`
+	DateOfExpiry     string `db:"date_of_expiry"`
+	Status           string `db:"status"`
 }
