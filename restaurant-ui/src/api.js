@@ -39,3 +39,32 @@ export const getMostPopularDishes = () =>
 
 export const getSuppliersByProduct = (productName) =>
     fetchData(`/api/products/${productName}/suppliers`, {method: "GET"});
+
+export const getReportDownload = async (dateFrom, dateTo) => {
+    try {
+        const response = await fetch(`/api/report/download?date_from=${dateFrom}&date_to=${dateTo}`, {
+            method: "GET",
+            headers: {
+                "Accept": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", // Ожидаем формат XLSX
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error("Ошибка при получении отчета.");
+        }
+
+        // Преобразуем ответ в Blob для обработки двоичных данных
+        const blob = await response.blob();
+
+        // Проверяем на пустой ответ
+        if (!blob.size) {
+            throw new Error("Файл пустой или ошибка на сервере.");
+        }
+
+        return blob; // Возвращаем Blob с данными для скачивания
+    } catch (err) {
+        throw new Error(err.message); // Обрабатываем ошибки
+    }
+};
+
+

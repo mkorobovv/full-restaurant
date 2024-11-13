@@ -6,7 +6,8 @@ import Dishes from './components/Dishes';
 import Employees from './components/Employees';
 import Supplies from './components/Supplies';
 import Customers from './components/Customers';
-import Content from './components/Content'; // Импортируем Content для отображения контента
+import Content from './components/Content';
+import Report from './components/Report';
 
 const App = () => {
     return (
@@ -20,6 +21,7 @@ const App = () => {
                         <Route path="/employees" element={<Employees />} />
                         <Route path="/supplies" element={<Supplies />} />
                         <Route path="/customers" element={<Customers />} />
+                        <Route path="/report" element={<Report />} />
                     </Routes>
                 </Content>
             </div>

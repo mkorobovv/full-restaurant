@@ -3,12 +3,14 @@ package controller
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
 	"log"
 	"net/http"
 	"time"
 
 	controller_gen "github.com/mkorobovv/full-restaurant/internal/app/adapters/primary/http-adapter/controller-gen"
 	api_service "github.com/mkorobovv/full-restaurant/internal/app/application/api-service"
+	print_form_service "github.com/mkorobovv/full-restaurant/internal/app/application/print-form-service"
 )
 
 func (ctr *Controller) GetCustomerOrderHistory(w http.ResponseWriter, r *http.Request, customerId int) {
@@ -205,7 +207,47 @@ func (ctr *Controller) GetSuppliersByProduct(w http.ResponseWriter, r *http.Requ
 }
 
 func (ctr *Controller) DownloadReport(w http.ResponseWriter, r *http.Request) {
-	return
+	dateFromQueryParam := r.URL.Query().Get("date_from")
+	dateToQueryParam := r.URL.Query().Get("date_to")
+
+	dateFrom, err := time.Parse(time.DateOnly, dateFromQueryParam)
+	if err != nil {
+		writeErr(w, err.Error(), http.StatusBadRequest)
+
+		return
+	}
+
+	dateTo, err := time.Parse(time.DateOnly, dateToQueryParam)
+	if err != nil {
+		writeErr(w, err.Error(), http.StatusBadRequest)
+
+		return
+	}
+
+	req := print_form_service.CreateReportRequest{
+		DateTo:   dateTo,
+		DateFrom: dateFrom,
+	}
+
+	report, err := ctr.printFormService.CreateReport(r.Context(), req)
+	if err != nil {
+		writeErr(w, err.Error(), http.StatusInternalServerError)
+
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet") // Тип для XLSX файлов
+	w.Header().Set("Content-Disposition", "attachment; filename=report.xlsx")                           // Указываем имя файла для скачивания
+	w.Header().Set("Content-Length", fmt.Sprintf("%d", len(report)))                                    // Устанавливаем размер контента
+
+	_, err = w.Write(report)
+	if err != nil {
+		log.Println(err)
+
+		writeErr(w, err.Error(), http.StatusInternalServerError)
+
+		return
+	}
 }
 
 func (ctr *Controller) GetMostPopularDishes(w http.ResponseWriter, r *http.Request) {

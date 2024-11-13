@@ -13,13 +13,17 @@ const Sidebar = () => {
                     <Link to="/dishes" className={location.pathname === "/dishes" ? "active" : ""}>Блюда</Link>
                 </li>
                 <li>
-                    <Link to="/employees" className={location.pathname === "/employees" ? "active" : ""}>Сотрудники</Link>
+                    <Link to="/employees"
+                          className={location.pathname === "/employees" ? "active" : ""}>Сотрудники</Link>
                 </li>
                 <li>
                     <Link to="/supplies" className={location.pathname === "/supplies" ? "active" : ""}>Поставки</Link>
                 </li>
                 <li>
                     <Link to="/customers" className={location.pathname === "/customers" ? "active" : ""}>Клиенты</Link>
+                </li>
+                <li>
+                    <Link to="/report" className={location.pathname === "/report" ? "active" : ""}>Отчет</Link>
                 </li>
             </ul>
         </div>
