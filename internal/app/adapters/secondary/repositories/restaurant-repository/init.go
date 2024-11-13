@@ -28,7 +28,6 @@ func New(cfg config.Database) *RestaurantRepository {
 func (repo *RestaurantRepository) Start() {
 	currentHostString := fmt.Sprintf("DB host: [%s:%s].", repo.config.Host, repo.config.Port)
 
-	log.Println(currentHostString + " Подключение...")
 	slog.Info(currentHostString + " Подключение...")
 
 	connectionString := repohelpers.GetConnectionString(repo.config.Type, repo.config.Host, repo.config.Port, repo.config.User, repo.config.Password, repo.config.Name)
