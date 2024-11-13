@@ -2,6 +2,7 @@ package restaurant_repository
 
 import (
 	"context"
+	"encoding/json"
 
 	_ "github.com/lib/pq"
 	api_service "github.com/mkorobovv/full-restaurant/internal/app/application/api-service"
@@ -131,7 +132,11 @@ func (repo *RestaurantRepository) GetCustomerOrderHistory(ctx context.Context, c
 	WHERE c.customer_id = $1;`
 
 	err = repo.DB.GetContext(ctx, &response, query, customerID)
+	if err != nil {
+		return api_service.GetCustomerOrderHistoryResponse{}, err
+	}
 
+	err = json.Unmarshal(response.OrdersBytes, &response.Orders)
 	if err != nil {
 		return api_service.GetCustomerOrderHistoryResponse{}, err
 	}

@@ -27,7 +27,8 @@ type GetCustomerOrderHistoryResponse struct {
 	PhoneNumber string  `json:"phone_number" db:"phone_number"`
 	Email       string  `json:"email" db:"email"`
 	Discount    int     `json:"discount" db:"discount"`
-	Orders      []Order `json:"orders" db:"orders"`
+	OrdersBytes []byte  `db:"orders"`
+	Orders      []Order `json:"orders"`
 }
 
 type Order struct {
