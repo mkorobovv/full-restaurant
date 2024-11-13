@@ -23,7 +23,7 @@ type restaurantRepository interface {
 	// Dishes
 
 	GetDishesWithIngredients(ctx context.Context) (dishes []dish.Dish, err error)
-	GetDishesByIngredient(ctx context.Context, ingredient string) (dishes []dish.Dish, err error)
+	GetDishesByIngredient(ctx context.Context, ingredient string) (dishes []dish.RecieveDish, err error)
 	GetMostPopularDishes(ctx context.Context) (responses []GetMostPopularDishesResponse, err error)
 
 	// Customers

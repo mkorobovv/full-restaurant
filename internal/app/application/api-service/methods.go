@@ -43,7 +43,7 @@ func (svc *APIService) GetDishesWithIngredients(ctx context.Context) (dishes []d
 	return dishes, nil
 }
 
-func (svc *APIService) GetDishesByIngredients(ctx context.Context, ingredient string) (dishes []dish.Dish, err error) {
+func (svc *APIService) GetDishesByIngredients(ctx context.Context, ingredient string) (dishes []dish.RecieveDish, err error) {
 	dishes, err = svc.restaurantRepository.GetDishesByIngredient(ctx, ingredient)
 	if err != nil {
 		return nil, err

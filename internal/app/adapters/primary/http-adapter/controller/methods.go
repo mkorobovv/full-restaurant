@@ -19,7 +19,17 @@ func (ctr *Controller) GetCustomerOrderHistory(w http.ResponseWriter, r *http.Re
 		return
 	}
 
-	err = json.NewEncoder(w).Encode(history)
+	dto := GetCustomerOrderHistoryDTO{
+		CustomerID:  history.CustomerID,
+		FirstName:   history.FirstName,
+		LastName:    history.LastName,
+		PhoneNumber: history.PhoneNumber,
+		Email:       history.Email,
+		Discount:    history.Discount,
+		Orders:      history.Orders,
+	}
+
+	err = json.NewEncoder(w).Encode(dto)
 	if err != nil {
 		writeErr(w, err.Error(), http.StatusInternalServerError)
 
@@ -37,7 +47,18 @@ func (ctr *Controller) GetDishesWithIngredients(w http.ResponseWriter, r *http.R
 		return
 	}
 
-	err = json.NewEncoder(w).Encode(dishes)
+	dtos := make([]GetDishesWithIngredientsDTO, len(dishes))
+
+	for i, dish := range dishes {
+		dtos[i] = GetDishesWithIngredientsDTO{
+			DishID:      dish.DishID,
+			DishName:    dish.DishName,
+			Price:       dish.Price,
+			Ingredients: dish.Ingredients,
+		}
+	}
+
+	err = json.NewEncoder(w).Encode(dtos)
 	if err != nil {
 		writeErr(w, err.Error(), http.StatusInternalServerError)
 
