@@ -9,9 +9,9 @@ adapters:
   secondary:
     databases:
       restaurant:
-        host: "RESTAURANT_HOST"
-        port: "RESTAURANT_PORT"
+        host: "localhost"
+        port: "5432"
         type: "postgres"
         name: "restaurant"
-        user: "RESTAURANT_USER"
-        password: "RESTAURANT_PASSWORD"
+        user: "user"
+        password: "password"

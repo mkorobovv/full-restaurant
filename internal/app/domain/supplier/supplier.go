@@ -7,6 +7,7 @@ type Supplier struct {
 	CompanyName string `db:"company_name"`
 	ChiefName   string `db:"chief_name"`
 	Address     string `db:"address"`
+	Email       string `db:"email"`
 }
 
 type Supply struct {
