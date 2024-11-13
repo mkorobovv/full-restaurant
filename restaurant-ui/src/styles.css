@@ -341,3 +341,137 @@ td {
 .error-modal button:hover {
     text-decoration: underline;
 }
+
+.toggle-ingredients {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-top: 10px;
+    transition: transform 0.3s ease-in-out; /* Плавное изменение стрелочки */
+}
+
+.toggle-ingredients.open .arrow {
+    transform: rotate(90deg); /* Поворот стрелочки при открытии */
+}
+
+.arrow {
+    width: 10px;
+    height: 10px;
+    border: solid 2px #333;
+    border-width: 0 2px 2px 0;
+    display: inline-block;
+    padding: 3px;
+    margin-right: 8px;
+    transform: rotate(45deg); /* Стрелка по умолчанию */
+}
+
+.ingredients-container {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.5s ease-out, padding 0.3s ease-out;
+    padding: 0 0 0 20px; /* добавляем отступ слева */
+}
+
+.ingredients-container.open {
+    max-height: 200px; /* Устанавливаем максимальную высоту для анимации */
+    padding: 10px 0; /* Появляется отступ, когда контейнер открыт */
+}
+
+.ingredients-list {
+    list-style: none;
+    padding-left: 20px;
+    margin-top: 10px;
+}
+
+.ingredients-list li {
+    margin: 5px 0;
+}
+
+.dish.expired {
+    background-color: rgba(255, 0, 0, 0.1); /* Легкое красное для expired */
+    border: 1px solid red;
+}
+
+.dish.expiring-soon {
+    background-color: rgba(255, 255, 0, 0.2); /* Легкое желтое для expiring soon */
+    border: 1px solid yellow;
+}
+
+.employee-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* Horizontally centers the cards */
+    gap: 20px;
+    width: 100%; /* Ensures the container takes full width */
+}
+
+.employee-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    width: 100%; /* Ensures the grid takes full width */
+    justify-items: center; /* Centers grid items inside the grid */
+}
+
+.employee-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    background-color: #333;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    width: 100%; /* Makes each card stretch to take full width within the grid */
+    max-width: 350px; /* Limit the maximum width of cards */
+    text-align: center; /* Centers text inside each card */
+}
+
+.employee-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.employee-card h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.employee-card p {
+    font-size: 16px;
+    margin: 5px 0;
+}
+
+.employee-card strong {
+    font-weight: bold;
+}
+
+/* Стили для блока информации о заказе */
+.orders-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.order-block {
+    background-color: #333;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.order-block h3 {
+    margin-top: 0;
+    color: #f4f4f4;
+}
+
+.order-dishes {
+    margin: 10px 0;
+}
+
+.dish-item {
+    margin-bottom: 8px;
+}
+
+.dish-item strong {
+    color: #FFD700; /* Жёлтый цвет для названия блюда */
+}

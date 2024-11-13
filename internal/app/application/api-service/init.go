@@ -28,7 +28,7 @@ type restaurantRepository interface {
 
 	// Customers
 
-	GetCustomerOrderHistory(ctx context.Context, customerID int64) (response GetCustomerOrderHistoryResponse, err error)
+	GetCustomerOrderHistory(ctx context.Context, request GetCustomerOrdersHistoryRequest) (response GetCustomerOrderHistoryResponse, err error)
 
 	// Suppliers
 

@@ -1,8 +1,6 @@
-// components/Supplies.js
 import React, { useState } from "react";
 import { getSuppliersByProduct } from "../api";
 import ErrorModal from "./ErrorModal";
-
 
 const Supplies = () => {
     const [productName, setProductName] = useState("");
@@ -19,6 +17,7 @@ const Supplies = () => {
 
         try {
             const data = await getSuppliersByProduct(productName);
+            console.log(data);
             setSuppliers(data);
         } catch (err) {
             setError("Ошибка загрузки поставщиков: " + err.message);
@@ -51,10 +50,11 @@ const Supplies = () => {
             {suppliers.length > 0 ? (
                 <div className="suppliers-list">
                     {suppliers.map((supplier) => (
-                        <div key={supplier.supplier_id} className="supplier">
+                        <div key={supplier.supplier_id} className="supplier-card">
                             <h2>{supplier.company_name}</h2>
-                            <p>Имя руководителя: {supplier.chief_name}</p>
-                            <p>Количество на складе: {supplier.stock_quantity}</p>
+                            <p><strong>Руководитель:</strong> {supplier.chief_name}</p>
+                            <p><strong>Адрес:</strong> {supplier.address}</p>
+                            <p><strong>Email:</strong> {supplier.email}</p>
                         </div>
                     ))}
                 </div>

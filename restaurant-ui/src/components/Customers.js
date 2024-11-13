@@ -1,7 +1,6 @@
-// src/components/Customer.js
 import React, { useState } from "react";
-import { getCustomerOrderHistory } from "../api"; // Импортируем API метод
-import ErrorModal from "./ErrorModal"; // Ошибка модалка
+import { getCustomerOrderHistory } from "../api"; // Importing API method
+import ErrorModal from "./ErrorModal"; // Error modal component
 
 const Customer = () => {
     const [customerId, setCustomerId] = useState("");
@@ -10,29 +9,36 @@ const Customer = () => {
     const [orderHistory, setOrderHistory] = useState([]);
     const [error, setError] = useState(null);
 
+    // Fetch order history from the API
     const fetchOrderHistory = async () => {
         try {
             const data = await getCustomerOrderHistory(customerId, dateFrom, dateTo);
-            setOrderHistory(data); // Сохраняем историю заказов
+            console.log("Fetched data: ", data);  // Check what is being returned from the API
+            setOrderHistory(data);  // Save the fetched data
         } catch (err) {
-            setError(err.message); // Устанавливаем ошибку
+            setError("Ошибка загрузки данных: " + err.message);  // Show error message if fetching fails
         }
     };
 
+    // Handle form submission
     const handleSubmit = (e) => {
         e.preventDefault();
-        fetchOrderHistory(); // Запрос на историю заказов
+        fetchOrderHistory(); // Fetch the order history for the given customer and dates
     };
 
+    // Close the error modal
     const closeErrorModal = () => {
-        setError(null); // Закрытие модального окна с ошибкой
+        setError(null);
     };
+
+    // Check if the client exists
+    const isCustomerFound = orderHistory && orderHistory.first_name && orderHistory.first_name.trim() !== "";
 
     return (
         <div className="content">
             <h1>История заказов клиента</h1>
 
-            {/* Форма для ввода данных */}
+            {/* Form to input customer ID and date range */}
             <form onSubmit={handleSubmit}>
                 <div>
                     <label>
@@ -68,32 +74,49 @@ const Customer = () => {
                 <button type="submit">Получить историю</button>
             </form>
 
-            {/* Ошибка, если есть */}
-            {error && <ErrorModal message={error} onClose={closeErrorModal} />}
+            {/* Error Modal */}
+            {error && <ErrorModal message={error} onClose={closeErrorModal}/>}
 
-            {/* Результаты */}
+            {/* Displaying Order History */}
             <div>
-                {orderHistory.length > 0 ? (
-                    <table>
-                        <thead>
-                        <tr>
-                            <th>Дата</th>
-                            <th>Товары</th>
-                            <th>Сумма</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {orderHistory.map((order) => (
-                            <tr key={order.order_id}>
-                                <td>{order.date}</td>
-                                <td>{order.items.join(", ")}</td>
-                                <td>{order.total_amount}₽</td>
-                            </tr>
-                        ))}
-                        </tbody>
-                    </table>
+                {/* Check if customer exists */}
+                {isCustomerFound ? (
+                    <div>
+                        <h2>Информация о клиенте</h2>
+                        <p><strong>Имя:</strong> {orderHistory.first_name} {orderHistory.last_name}</p>
+                        <p><strong>Телефон:</strong> {orderHistory.phone_number}</p>
+                        <p><strong>Email:</strong> {orderHistory.email}</p>
+                        <p><strong>Скидка:</strong> {orderHistory.discount}%</p>
+
+                        <h2>История заказов</h2>
+                        {/* Check if orders exist and if they have any data */}
+                        {orderHistory.orders && orderHistory.orders.length > 0 ? (
+                            <div className="orders-container">
+                                {orderHistory.orders.map((order) => (
+                                    <div className="order-block" key={order.order_id}>
+                                        <h3>Заказ №{order.order_id}</h3>
+                                        <p><strong>Дата заказа:</strong> {new Date(order.created_at).toLocaleDateString()}</p>
+
+                                        <h4>Товары:</h4>
+                                        <div className="order-dishes">
+                                            {order.dishes.map((dish, index) => (
+                                                <div className="dish-item" key={index}>
+                                                    <strong>{dish.name}</strong> ({dish.dish_quantity} шт.)
+                                                    - {dish.dish_price}₽
+                                                </div>
+                                            ))}
+                                        </div>
+
+                                        <p><strong>Сумма:</strong> {order.price}₽</p>
+                                    </div>
+                                ))}
+                            </div>
+                        ) : (
+                            <p>У клиента нет заказов для выбранного периода.</p>
+                        )}
+                    </div>
                 ) : (
-                    <p>Нет заказов для выбранного периода.</p>
+                    <p>Клиент не найден. Пожалуйста, проверьте введенные данные.</p>
                 )}
             </div>
         </div>

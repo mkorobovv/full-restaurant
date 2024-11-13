@@ -5,6 +5,7 @@ import (
 	"errors"
 	"github.com/mkorobovv/full-restaurant/internal/app/adapters/primary/http-adapter/controller"
 	controller_gen "github.com/mkorobovv/full-restaurant/internal/app/adapters/primary/http-adapter/controller-gen"
+	"github.com/mkorobovv/full-restaurant/internal/app/adapters/primary/http-adapter/middleware"
 	"github.com/mkorobovv/full-restaurant/internal/app/adapters/primary/http-adapter/router"
 	api_service "github.com/mkorobovv/full-restaurant/internal/app/application/api-service"
 	print_form_service "github.com/mkorobovv/full-restaurant/internal/app/application/print-form-service"
@@ -29,6 +30,9 @@ func New(config config.HttpAdapter, apiSvc *api_service.APIService, pfService *p
 		ctr,
 		controller_gen.ChiServerOptions{
 			BaseRouter: r.Router(),
+			Middlewares: []controller_gen.MiddlewareFunc{
+				middleware.CORS,
+			},
 		},
 	)
 

@@ -2,8 +2,9 @@ package restaurant_repository
 
 import (
 	"context"
+	"database/sql"
 	"encoding/json"
-
+	"errors"
 	_ "github.com/lib/pq"
 	api_service "github.com/mkorobovv/full-restaurant/internal/app/application/api-service"
 	"github.com/mkorobovv/full-restaurant/internal/app/domain/dish"
@@ -130,7 +131,7 @@ func (repo *RestaurantRepository) GetMostPopularDishes(ctx context.Context) (res
 	return responses, nil
 }
 
-func (repo *RestaurantRepository) GetCustomerOrderHistory(ctx context.Context, customerID int64) (response api_service.GetCustomerOrderHistoryResponse, err error) {
+func (repo *RestaurantRepository) GetCustomerOrderHistory(ctx context.Context, request api_service.GetCustomerOrdersHistoryRequest) (response api_service.GetCustomerOrderHistoryResponse, err error) {
 	query := `SELECT
     c.customer_id,
     c.first_name,
@@ -157,15 +158,25 @@ func (repo *RestaurantRepository) GetCustomerOrderHistory(ctx context.Context, c
                     ) e
                 ) AS dishes
             FROM restaurant.orders o
-            WHERE o.customer_id = c.customer_id
+            WHERE o.customer_id = c.customer_id AND o.created_at BETWEEN $2 AND $3 
         ) o
     ) AS orders
 	FROM restaurant.customers c
 	WHERE c.customer_id = $1;`
 
-	err = repo.DB.GetContext(ctx, &response, query, customerID)
+	err = repo.DB.GetContext(ctx, &response, query, request.CustomerID, request.DateFrom, request.DateTo)
 	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return api_service.GetCustomerOrderHistoryResponse{}, nil
+		}
+
 		return api_service.GetCustomerOrderHistoryResponse{}, err
+	}
+
+	response.Orders = make([]api_service.Order, 0)
+
+	if len(response.OrdersBytes) == 0 {
+		return response, nil
 	}
 
 	err = json.Unmarshal(response.OrdersBytes, &response.Orders)

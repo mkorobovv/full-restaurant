@@ -12,9 +12,40 @@ import (
 )
 
 func (ctr *Controller) GetCustomerOrderHistory(w http.ResponseWriter, r *http.Request, customerId int) {
-	history, err := ctr.apiService.GetCustomerOrderHistory(r.Context(), int64(customerId))
+	dateFromQueryParam := r.URL.Query().Get("date_from")
+	dateToQueryParam := r.URL.Query().Get("date_to")
+
+	dateFrom, err := time.Parse(time.DateOnly, dateFromQueryParam)
+	if err != nil {
+		writeErr(w, err.Error(), http.StatusBadRequest)
+
+		return
+	}
+
+	dateTo, err := time.Parse(time.DateOnly, dateToQueryParam)
+	if err != nil {
+		writeErr(w, err.Error(), http.StatusBadRequest)
+
+		return
+	}
+
+	req := api_service.GetCustomerOrdersHistoryRequest{
+		CustomerID: customerId,
+		DateFrom:   dateFrom,
+		DateTo:     dateTo,
+	}
+
+	history, err := ctr.apiService.GetCustomerOrderHistory(r.Context(), req)
 	if err != nil {
 		writeErr(w, err.Error(), http.StatusInternalServerError)
+
+		return
+	}
+
+	if history.CustomerID == 0 {
+		err = errors.New("customer not found")
+
+		writeErr(w, err.Error(), http.StatusNotFound)
 
 		return
 	}

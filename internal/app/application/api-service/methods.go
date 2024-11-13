@@ -52,8 +52,8 @@ func (svc *APIService) GetDishesByIngredients(ctx context.Context, ingredient st
 	return dishes, nil
 }
 
-func (svc *APIService) GetCustomerOrderHistory(ctx context.Context, customerID int64) (history GetCustomerOrderHistoryResponse, err error) {
-	history, err = svc.restaurantRepository.GetCustomerOrderHistory(ctx, customerID)
+func (svc *APIService) GetCustomerOrderHistory(ctx context.Context, request GetCustomerOrdersHistoryRequest) (history GetCustomerOrderHistoryResponse, err error) {
+	history, err = svc.restaurantRepository.GetCustomerOrderHistory(ctx, request)
 	if err != nil {
 		return GetCustomerOrderHistoryResponse{}, err
 	}

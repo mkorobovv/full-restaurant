@@ -1,4 +1,3 @@
-// src/components/Employee.js
 import React, { useState } from "react";
 import { getEmployeeOrderCount } from "../api"; // Импортируем API метод
 import ErrorModal from "./ErrorModal"; // Ошибка модалка
@@ -6,13 +5,14 @@ import ErrorModal from "./ErrorModal"; // Ошибка модалка
 const Employee = () => {
     const [dateFrom, setDateFrom] = useState("");
     const [dateTo, setDateTo] = useState("");
-    const [orderCount, setOrderCount] = useState(null);
+    const [employees, setEmployees] = useState([]); // Changed state to store multiple employees
     const [error, setError] = useState(null);
 
     const fetchOrderCount = async () => {
         try {
             const data = await getEmployeeOrderCount(dateFrom, dateTo);
-            setOrderCount(data); // Сохраняем количество заказов
+            console.log(data);
+            setEmployees(data); // Assuming the data is an array of employee objects
         } catch (err) {
             setError(err.message); // Устанавливаем ошибку
         }
@@ -32,7 +32,7 @@ const Employee = () => {
             <h1>Количество заказов сотрудника</h1>
 
             {/* Форма для ввода данных */}
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className="date-form">
                 <div>
                     <label>
                         Дата с:
@@ -62,10 +62,18 @@ const Employee = () => {
             {error && <ErrorModal message={error} onClose={closeErrorModal} />}
 
             {/* Результаты */}
-            <div>
-                {orderCount !== null ? (
-                    <div>
-                        <h2>Количество заказов: {orderCount}</h2>
+            <div className="employee-list">
+                {employees.length > 0 ? (
+                    <div className="employee-grid">
+                        {employees.map((employee) => (
+                            <div className="employee-card" key={employee.employee_id}>
+                                <h3>{employee.first_name} {employee.last_name}</h3>
+                                <p><strong>Должность:</strong> {employee.position_name}</p>
+                                <p><strong>Телефон:</strong> {employee.phone_number}</p>
+                                <p><strong>Зарплата:</strong> {employee.salary} ₽</p>
+                                <p><strong>Количество заказов:</strong> {employee.orders_count}</p>
+                            </div>
+                        ))}
                     </div>
                 ) : (
                     <p>Введите диапазон дат для получения данных.</p>

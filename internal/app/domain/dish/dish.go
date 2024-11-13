@@ -10,7 +10,7 @@ type Dish struct {
 
 type RecieveDish struct {
 	DishID   int64   `db:"dish_id" json:"dish_id"`
-	DishName string  `db:"dish_name" json:"dish_name"`
+	DishName string  `db:"dish_name" json:"name"`
 	Price    float64 `db:"price" json:"price"`
 }
 
