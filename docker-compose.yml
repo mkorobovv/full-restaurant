@@ -1,0 +1,19 @@
+version: '3.9'
+
+services:
+  db:
+    image: postgres:13
+    restart: always
+    environment:
+      - POSTGRES_USER=${RESTAURANT_USER}
+      - POSTGRES_PASSWORD=${RESTAURANT_PASSWORD}
+      - POSTGRES_DB=${RESTAURANT_DB}
+    volumes:
+      - ./migrations/restaurant.sql:/docker-entrypoint-initdb.d/restaurant.sql
+      - ./migrations/inserts.sql:/docker-entrypoint-initdb.d/inserts.sql
+      - db-data:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
+
+volumes:
+  db-data:

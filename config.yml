@@ -1,0 +1,17 @@
+adapters:
+  primary:
+    httpAdapter:
+      port: ":8080"
+      readTimeout: 30s
+      writeTimeout: 500s
+      readHeaderTimeout: 30s
+      shutdownTimeout: 3s
+  secondary:
+    databases:
+      restaurant:
+        host: "localhost"
+        port: "5432"
+        type: "postgres"
+        name: "restaurant"
+        user: "user"
+        password: "password"
