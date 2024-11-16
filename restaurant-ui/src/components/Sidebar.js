@@ -7,6 +7,9 @@ const Sidebar = () => {
 
     return (
         <div className="sidebar">
+            <div className="logo-container">
+                <img src="https://mai.ru/press/brand/download/Default/RU/Default.svg" alt="Логотип" className="logo"/>
+            </div>
             <h1>Университетское кафе</h1>
             <ul>
                 <li>

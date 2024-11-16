@@ -5,7 +5,7 @@ import ErrorModal from "./ErrorModal"; // Ошибка модалка
 const Employee = () => {
     const [dateFrom, setDateFrom] = useState("");
     const [dateTo, setDateTo] = useState("");
-    const [employees, setEmployees] = useState([]); // Changed state to store multiple employees
+    const [employees, setEmployees] = useState([]);
     const [error, setError] = useState(null);
 
     const fetchOrderCount = async () => {

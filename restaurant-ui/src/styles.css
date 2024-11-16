@@ -2,47 +2,46 @@
 
 /* Основной стиль для body */
 body {
-    font-family: 'Roboto', sans-serif;
-    background-color: #1a1a1a; /* Темно-серый фон с красным акцентом */
+    font-family: 'Poppins', sans-serif;
+    background: #f4f4f9;
     margin: 0;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    color: #333; /* Белый текст для контраста */
+    color: #333;
 }
 
-/* Контейнер с боковой панелью и контентом */
+/* Контейнер приложения */
 .app {
     display: flex;
     flex: 1;
     width: 100%;
     height: 100%;
+    gap: 20px;
+    padding: 20px;
 }
 
 /* Стили боковой панели */
 .sidebar {
-    background-color: #2b2b2b; /* Темно-серый фон боковой панели */
+    background: linear-gradient(135deg, #007bff, #00d4ff);
     width: 250px;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    border-radius: 15px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
     padding: 20px;
+    color: white;
     position: sticky;
     top: 20px;
     height: calc(100vh - 40px);
     overflow-y: auto;
-    border: 1px solid #444; /* Легкая граница */
 }
 
-/* Заголовок боковой панели */
 .sidebar h1 {
     font-size: 24px;
     font-weight: bold;
     margin-bottom: 20px;
     text-align: center;
-    color: #d9534f; /* Красный акцент */
 }
 
-/* Стили для списка ссылок в боковой панели */
 .sidebar ul {
     list-style: none;
     padding: 0;
@@ -52,269 +51,123 @@ body {
     margin-bottom: 15px;
 }
 
-/* Стили для ссылок */
 .sidebar a {
-    color: #d0d0d0; /* Мягкий светло-серый текст */
+    color: rgba(255, 255, 255, 0.8);
     text-decoration: none;
     font-size: 18px;
     display: block;
-    padding: 10px;
-    border-radius: 5px;
-    transition: background-color 0.3s, color 0.3s;
+    padding: 12px 20px;
+    border-radius: 8px;
+    transition: background 0.3s, color 0.3s;
 }
 
-/* Эффект при наведении на ссылку */
-.sidebar a:hover {
-    background-color: #d9534f; /* Красный фон при наведении */
-    color: #fff; /* Белый текст при наведении */
+.sidebar a:hover, .sidebar a.active {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
 }
-
-/* Стили для активной ссылки (при переходе в раздел) */
-.sidebar a.active {
-    background-color: #c9302c; /* Темно-красный для активной ссылки */
-    color: #fff; /* Белый текст для активной ссылки */
-}
-
 
 /* Стили для контента */
 .content {
     flex: 1;
-    margin-left: 20px;
-    padding: 20px;
-    background-color: #333; /* Темно-серый фон для контента */
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-    height: 100vh;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    padding: 30px;
     overflow-y: auto;
 }
 
-/* Стили для заголовков в контенте */
 .content h1 {
-    font-size: 36px;
+    font-size: 32px;
     font-weight: bold;
     margin-bottom: 20px;
-    color: #f5f5f5; /* Белый текст */
-    text-align: center; /* Выравнивание заголовков по центру */
+    color: #333;
+    text-align: center;
 }
 
-/* Параграфы в контенте */
 .content p {
     font-size: 18px;
     line-height: 1.6;
-    color: #ccc; /* Светлый серый цвет для текста */
+    color: #666;
+    margin-bottom: 15px;
 }
 
+/* Навбар */
 .navbar {
     display: flex;
-    justify-content: center; /* Выровнять кнопки по центру */
+    justify-content: center;
     gap: 20px;
-    width: 100%; /* Растянуть на всю ширину */
-    background-color: #222; /* Темный фон для контраста */
+    width: 100%;
+    background: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     padding: 15px 0;
-    border-radius: 5px; /* Скругленные углы для красоты */
+    border-radius: 15px;
 }
 
 .navbar button {
     padding: 10px 20px;
-    background-color: #333;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
+    background: #007bff;
+    color: white;
+    border-radius: 8px;
     cursor: pointer;
     font-size: 16px;
+    border: none;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.navbar button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 .navbar .active-tab {
-    background-color: #ff4d4d; /* Цвет активной вкладки */
-}
-
-.fetch-button {
-    padding: 10px 20px;
-    background-color: #ff4d4d;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-top: 10px;
-}
-
-.fetch-button:hover {
-    background-color: #e60000;
-}
-
-.ingredient-search {
-    display: flex;
-    align-items: center;
-    justify-content: center; /* Центрирует строку поиска */
-    margin: 20px 0;
-}
-
-.ingredient-search input {
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    width: 300px; /* Фиксированная ширина */
-    margin-right: 10px;
-}
-
-
-.dishes-list {
-    margin-top: 20px;
-}
-
-.dish {
-    margin-bottom: 15px;
-    padding: 15px;
-    background-color: #222;
-    border-radius: 5px;
-    color: #fff;
-}
-
-.error {
-    color: #ff4d4d;
-    margin-top: 10px;
-}
-
-.ingredient-search {
-    margin-bottom: 20px;
-    display: flex;
-    justify-content: center;
-}
-
-.ingredient-search input {
-    padding: 10px;
-    margin-right: 10px;
-    font-size: 16px;
-    width: 300px;
-    max-width: 100%;
+    background: #0056b3;
 }
 
 .fetch-button {
     padding: 10px 20px;
     font-size: 16px;
-    cursor: pointer;
-    background-color: #ff4d4d;
+    background: #007bff;
     color: white;
     border: none;
-    border-radius: 4px;
-}
-
-.fetch-button:hover {
-    background-color: #ff4d4d;
-}
-
-.suppliers-list {
-    margin-top: 20px;
-}
-
-.supplier-card h2 {
-    color: white;
-}
-
-.supplier {
-    border: 1px solid #ddd;
-    padding: 15px;
-    margin-bottom: 10px;
     border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.3s;
 }
 
-.supplier h2 {
-    margin: 0;
+.fetch-button:hover {
+    background: #0056b3;
+    transform: scale(1.05);
+}
+
+/* Карточки */
+.employee-card, .supplier-card, .dish {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px;
+    background: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.employee-card:hover, .supplier-card:hover, .dish:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+.employee-card h3, .supplier-card h2, .dish h3 {
     font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
     color: #333;
 }
 
-.supplier p {
-    margin: 5px 0;
-}
-
-/* src/components/styles.css */
-
-/* Оформление общей структуры страницы */
-.content {
-    font-family: Arial, sans-serif;
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #333;
-    border-radius: 8px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-}
-
-/* Заголовок отчета */
-h1 {
-    text-align: center;
-    font-size: 28px;
-    margin-bottom: 20px;
-    font-weight: 600;
-    color: white;
-}
-
-/* Оформление формы */
-form {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    margin-bottom: 30px;
-}
-
-label {
+.employee-card p, .supplier-card p, .dish p {
     font-size: 16px;
-    color: white;
+    color: #666;
+    margin-bottom: 8px;
 }
 
-input[type="text"],
-input[type="date"] {
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 16px;
-    width: 100%;
-}
-
-button {
-    padding: 10px 20px;
-    background-color: #ff4d4d;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-button:hover {
-    background-color: #ff4d4d;
-}
-
-/* Стилизация таблиц */
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-}
-
-table, th, td {
-    border: 1px solid #333;
-}
-
-th, td {
-    padding: 12px;
-    text-align: left;
-    font-size: 16px;
-}
-
-th {
-    background-color: #333;
-    font-weight: bold;
-}
-
-td {
-    background-color: #fff;
-}
-
-/* Оформление модального окна ошибки */
+/* Модальное окно ошибки */
 .error-modal {
     position: fixed;
     bottom: 20px;
@@ -342,222 +195,229 @@ td {
     text-decoration: underline;
 }
 
-.toggle-ingredients {
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    margin-top: 10px;
-    transition: transform 0.3s ease-in-out; /* Плавное изменение стрелочки */
-}
-
-.toggle-ingredients.open .arrow {
-    transform: rotate(90deg); /* Поворот стрелочки при открытии */
-}
-
-.arrow {
-    width: 10px;
-    height: 10px;
-    border: solid 2px #333;
-    border-width: 0 2px 2px 0;
-    display: inline-block;
-    padding: 3px;
-    margin-right: 8px;
-    transform: rotate(45deg); /* Стрелка по умолчанию */
-}
-
-.ingredients-container {
-    overflow: hidden;
-    max-height: 0;
-    transition: max-height 0.5s ease-out, padding 0.3s ease-out;
-    padding: 0 0 0 20px; /* добавляем отступ слева */
-}
-
-.ingredients-container.open {
-    max-height: 200px; /* Устанавливаем максимальную высоту для анимации */
-    padding: 10px 0; /* Появляется отступ, когда контейнер открыт */
-}
-
-.ingredients-list {
-    list-style: none;
-    padding-left: 20px;
-    margin-top: 10px;
-}
-
-.ingredients-list li {
-    margin: 5px 0;
-}
-
-.dish.expired {
-    background-color: rgba(255, 0, 0, 0.1); /* Легкое красное для expired */
-    border: 1px solid red;
-}
-
-.dish.expiring-soon {
-    background-color: rgba(255, 255, 0, 0.2); /* Легкое желтое для expiring soon */
-    border: 1px solid yellow;
-}
-
-.employee-list {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center; /* Horizontally centers the cards */
-    gap: 20px;
-    width: 100%; /* Ensures the container takes full width */
-}
-
-.employee-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 20px;
-    width: 100%; /* Ensures the grid takes full width */
-    justify-items: center; /* Centers grid items inside the grid */
-}
-
-.employee-card {
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 20px;
-    background-color: #333;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
-    width: 100%; /* Makes each card stretch to take full width within the grid */
-    max-width: 350px; /* Limit the maximum width of cards */
-    text-align: center; /* Centers text inside each card */
-}
-
-.employee-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-}
-
-.employee-card h3 {
-    font-size: 20px;
-    margin-bottom: 10px;
-    color: white;
-}
-
-.employee-card p {
-    font-size: 16px;
-    margin: 5px 0;
-}
-
-.employee-card strong {
-    font-weight: bold;
-}
-
-/* Стили для блока информации о заказе */
-.orders-container {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.order-block {
-    background-color: #333;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.order-block h3 {
-    margin-top: 0;
-    color: #f4f4f4;
-}
-
-.order-dishes {
-    margin: 10px 0;
-}
-
-.dish-item {
-    margin-bottom: 8px;
-}
-
-.dish-item strong {
-    color: #FFD700; /* Жёлтый цвет для названия блюда */
-}
-
-/* Форма для выбора диапазона дат */
-.date-picker {
-    margin-bottom: 10px;
-    display: flex;
-    flex-direction: column;
-    max-width: 250px;
-}
-
-.date-picker label {
-    font-size: 16px;
-    color: #333;
-}
-
-.fetch-btn {
-    background-color: #2b2b2b;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: bold;
-    margin-top: 15px;
-    border-radius: 5px;
-}
-
-.fetch-btn:hover {
-    background-color: red;
-}
-
-/* Стили для контейнера отчета */
-.report-container {
-    margin-top: 30px;
-}
-
-/* Стили для карточки отчета */
-.report-card {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.report-card h2 {
-    font-size: 24px;
-    font-weight: 600;
-    margin-bottom: 20px;
-    color: #333;
-}
-
 /* Стили для таблицы */
-.report-table {
+table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
     font-size: 16px;
+    color: #333;
+    border-radius: 8px;
+    overflow: hidden;
 }
 
-.report-table th, .report-table td {
+table, th, td {
+    border: 1px solid #ddd;
+}
+
+th, td {
     padding: 12px 15px;
     text-align: left;
-    border-bottom: 1px solid #ddd;
 }
 
-.report-table th {
-    background-color: #f8f8f8;
-    font-weight: 600;
+th {
+    background: #007bff;
+    color: white;
+    font-weight: bold;
 }
 
-.report-table tr:hover {
-    background-color: #f1f1f1;
-}
-
-.report-table td {
+td {
+    background: white;
     color: #555;
 }
 
-/* Стили для формы и кнопки */
-.date-picker input {
+table tr:hover td {
+    background: rgba(0, 123, 255, 0.1);
+}
+
+/* Анимации */
+.fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Стили формы выбора диапазона дат */
+.date-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    align-items: center;
+    justify-content: center;
+    margin: 20px 0;
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.date-form div {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.date-form label {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+}
+
+.date-form input {
     padding: 10px;
     font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    margin-top: 5px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 250px;
+    transition: border-color 0.3s ease;
+}
+
+.date-form input:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+.date-form button {
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    background: #007bff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.3s;
+}
+
+.date-form button:hover {
+    background: #0056b3;
+    transform: scale(1.05);
+}
+
+.date-form button:active {
+    transform: scale(1);
+}
+
+.dish.expiring-soon {
+    background-color: rgba(255, 255, 0, 0.1); /* Лёгкий желтый фон */
+    border: 1px solid rgba(255, 255, 0, 0.6); /* Жёлтая рамка */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.dish.expired {
+    background-color: rgba(255, 0, 0, 0.1); /* Лёгкий красный фон */
+    border: 1px solid rgba(255, 0, 0, 0.6); /* Красная рамка */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.dish.expiring-soon:hover, .dish.expired:hover {
+    transform: translateY(-5px); /* Небольшое поднятие */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Лёгкая тень */
+}
+
+.dish h2, .dish p {
+    color: #333; /* Цвет текста */
+}
+
+
+/* Общие стили для форм */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    margin: 20px auto;
+}
+
+/* Стили для div-обертки */
+form div {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+/* Стили для текста label */
+form label {
+    font-size: 16px;
+    color: #333;
+    font-weight: bold;
+}
+
+/* Стили для input */
+form input[type="text"],
+form input[type="date"] {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: border-color 0.3s;
+}
+
+/* Фокус для input */
+form input[type="text"]:focus,
+form input[type="date"]:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Стили для кнопки */
+form button {
+    padding: 12px 20px;
+    font-size: 16px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s, transform 0.2s;
+}
+
+/* Ховер для кнопки */
+form button:hover {
+    background: #0056b3;
+    transform: scale(1.05);
+}
+
+/* Ошибочные сообщения */
+form p {
+    color: #ff4d4d;
+    font-size: 14px;
+    margin-top: 10px;
+    text-align: center;
+}
+
+/* Стили для date-picker */
+.date-picker {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.logo-container {
+    display: flex;
+    justify-content: center; /* Центрируем логотип */
+    align-items: center;
+    margin-bottom: 10px; /* Отступ снизу */
+}
+
+.logo {
+    width: 60px; /* Ширина логотипа */
+    height: auto; /* Сохраняем пропорции */
 }
